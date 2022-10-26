@@ -37,6 +37,8 @@
             </ul>
         </nav>
 
+        <main class="gallery-container grid grid-auto-cols"></main>
+
         <section class="pages-section"></section>
 
         <section class="tags-section">
@@ -49,10 +51,24 @@
 
     <section class="meme-section">
         <main class="main-editor">
-            <canvas id="meme"></canvas>
+            <canvas id="meme" width="500" height="500"></canvas>
         </main>
 
-        <aside class="design-container"></aside>
+        <aside class="design-container">
+            <input class="input text-input meme-text" type="text" placeholder="text">
+            <button class="meme-button size up" data-direction="1">size+</button>
+            <button class="meme-button size down" data-direction="-1">size-</button>
+            <button class="meme-button selector" data-direction="-1">line up</button>
+            <button class="meme-button selector" data-direction="1">line down</button>
+            <button>left</button>
+            <button>center</button>
+            <button>rigth</button>
+            <select name="font" id="font">
+                <option value="Impact">123</option>
+            </select>
+            <button>undeline</button>
+            <input class="input color-input text-color" type="color">
+        </aside>
     </section>
 
     <script src="js/services/utils.service.js"></script>

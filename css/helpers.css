@@ -8,7 +8,7 @@
 }
 
 .hidden{
-    display: hidden;
+    display: none;
 }
 
 .flex{
@@ -46,4 +46,8 @@
 
 .align-center {
     align-items: center;
+}
+
+.grid-auto-cols{
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
 }
