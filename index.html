@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>meMaker</title>
+    <link rel="stylesheet" href="css/main.css">
+</head>
+
+<body class="main-layout">
+
+    <header class="main-header full main-layout">
+        <nav class="main-nav">
+            <div class="logo"></div>
+            <ul class="flex">
+                <li>Gallery</li>
+                <li>Meme</li>
+                <li>Lucky?</li>
+                <li>About</li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="gallery-section">
+        <nav class="gallery-nav">
+            <ul class="flex">
+                <ul>
+                    <li>Search</li>
+                    <li><input type="text"></li>
+                </ul>
+                <ul>
+                    <li>Upload</li>
+                    <li><input type="file"></li>
+                </ul>
+            </ul>
+        </nav>
+
+        <section class="pages-section"></section>
+
+        <section class="tags-section">
+        </section>
+
+        <main class="main-gallery grid"></main>
+
+        <section class="pages-section"></section>
+    </section>
+
+    <section class="meme-section">
+        <main class="main-editor">
+            <canvas id="meme"></canvas>
+        </main>
+
+        <aside class="design-container"></aside>
+    </section>
+
+    <script src="js/services/utils.service.js"></script>
+    <script src="js/services/i18.service.js"></script>
+    <script src="js/services/canvas.service.js"></script>
+    <script src="js/services/gallery.service.js"></script>
+    <script src="js/services/meme.service.js"></script>
+    <script src="js/gallery.controller.js"></script>
+    <script src="js/meme.controller.js"></script>
+    <script src="js/main.js"></script>
+</body>
+
+</html>
