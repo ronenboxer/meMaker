@@ -63,7 +63,7 @@ function getMeme(){
 function setMeme(imgId){
     gMeme = {
         imgId,
-        url: `../square.imgs/${imgId}.jpg`,
+        url: `square.imgs/${imgId}.jpg`,
         selectedLineIdx: -1,
         lines: []
     }
