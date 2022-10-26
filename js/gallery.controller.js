@@ -1,7 +1,8 @@
 'use strict'
 
 function onGalleryInit(){
-    document.querySelector('.meme-section').classList.add('hidden')
+    onMemeInit()
+    // document.querySelector('.meme-section').classList.add('hidden')
     document.querySelector('.gallery-section').classList.remove('hidden')
     renderGallery()
 }

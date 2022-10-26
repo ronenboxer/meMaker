@@ -9,7 +9,7 @@ let gElCanvas
 let gCtx
 
 function onMemeInit() {
-    document.querySelector('.gallery-section').classList.add('hidden')
+    // document.querySelector('.gallery-section').classList.add('hidden')
     document.querySelector('.meme-section').classList.remove('hidden')
     gElCanvas = document.querySelector('canvas')
     gCtx = gElCanvas.getContext('2d')
