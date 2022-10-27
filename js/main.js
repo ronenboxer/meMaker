@@ -18,6 +18,7 @@ function onInit(){
 function addNavListeners(){
     document.querySelectorAll('.main-header .main-nav li a').forEach(link =>{
         link.addEventListener('click', LINKS[link.dataset.id])
+        link.addEventListener('touchstart', LINKS[link.dataset.id])
     })
 }
 

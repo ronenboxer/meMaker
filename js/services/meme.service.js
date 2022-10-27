@@ -4,8 +4,6 @@
 const DEFUALT_SIZE = 30
 const MEME_SOTAGE_KEY = 'memeDB'
 const KEYWORDS_STORAGE_KEY = 'keywordsDB'
-let gKeyWords = _loadKeywords() || initKeywords()
-let gMemes = _loadMemes() || {}
 let gMemeImgs = [
     { id: 1, keywords: ['trump', 'politics', 'arrogant'] },
     { id: 2, keywords: ['dogs', 'cute', 'love'] },
@@ -26,53 +24,61 @@ let gMemeImgs = [
     { id: 17, keywords: ['vladimir', 'putin', 'politics', 'holocaust', 'russia'] },
     { id: 18, keywords: ['toy', 'story', 'buzz', 'everywhere', 'annoyed', 'pleased'] },
 ]
+let gKeyWords = _loadKeywords()
+let gMemes = _loadMemes() || {}
 
-let gMeme = {
-    imgId: 1,
-    url: 'square.imgs/1.jpg',
-    selectedLineIdx: -1,
-    lines: [
-        {
-            txt: 'abanaibi dinin! kdjs',
-            font: 'Impact',
-            size: 10,
-            strokeSize: 1,
-            strokeColor: 'black',
-            align: 'start',
-            color: 'white'
-        },
-        {
-            txt: 'I sometimes eat Falafel!!',
-            font: 'Impact',
-            size: 20,
-            strokeSize: 1,
-            strokeColor: 'black',
-            align: 'start',
-            color: 'red',
-            // angle: Math.PI / 4,
-            // x: 3,
-            // y: 174
-        },
-        {
-            txt: 'sefsdf, sdfsdfsdfs',
-            font: 'Impact',
-            size: 30,
-            strokeSize: 1,
-            strokeColor: 'black',
-            align: 'end',
-            color: 'brown'
-        },
-        {
-            txt: 'hjkj lkjklkj kjkk123l',
-            font: 'Impact',
-            size: 40,
-            strokeSize: 1,
-            strokeColor: 'black',
-            align: 'center',
-            color: 'yellow'
-        }
-    ]
+if (!gKeyWords) {
+    gKeyWords = {}
+    initKeywords()
 }
+
+let gMeme 
+// = {
+//     imgId: 1,
+//     url: 'square.imgs/1.jpg',
+//     selectedLineIdx: -1,
+//     lines: [
+//         {
+//             txt: 'abanaibi dinin! kdjs',
+//             font: 'Impact',
+//             size: 10,
+//             strokeSize: 1,
+//             strokeColor: 'black',
+//             align: 'start',
+//             color: 'white'
+//         },
+//         {
+//             txt: 'I sometimes eat Falafel!!',
+//             font: 'Impact',
+//             size: 20,
+//             strokeSize: 1,
+//             strokeColor: 'black',
+//             align: 'start',
+//             color: 'red',
+//             // angle: Math.PI / 4,
+//             // x: 3,
+//             // y: 174
+//         },
+//         {
+//             txt: 'sefsdf, sdfsdfsdfs',
+//             font: 'Impact',
+//             size: 30,
+//             strokeSize: 1,
+//             strokeColor: 'black',
+//             align: 'end',
+//             color: 'brown'
+//         },
+//         {
+//             txt: 'hjkj lkjklkj kjkk123l',
+//             font: 'Impact',
+//             size: 40,
+//             strokeSize: 1,
+//             strokeColor: 'black',
+//             align: 'center',
+//             color: 'yellow'
+//         }
+//     ]
+// }
 
 
 function createMeme(imgId) {

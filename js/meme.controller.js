@@ -9,8 +9,10 @@ const STEP_SIZE = 10
 let gElCanvas
 let gCtx
 let selectedLine = null
+let previousTouch
 
 function onMemeInit() {
+    if (!getMeme) return onGalleryInit()
     document.querySelector('.gallery-section').classList.add('hidden')
     document.querySelector('.meme-section').classList.remove('hidden')
     gElCanvas = document.querySelector('canvas')
@@ -23,23 +25,34 @@ function onMemeInit() {
 function addListeners() {
     window.addEventListener('resize', resizeCanvas)
     addMouselisteners()
+    addTouchlisteners()
 }
 
 function addMouselisteners() {
     gElCanvas.addEventListener('mousedown', onDown)
     // document.querySelector('html').addEventListener('mousedown', onDown)
-    addDesignConatinerListeners()
+    addMouseDesignConatinerListeners()
+}
+function addTouchlisteners() {
+    gElCanvas.addEventListener('touchstart', onDown)
+    addTouuchDesignConatinerListeners()
 }
 
-function addDesignConatinerListeners() {
+function addMouseDesignConatinerListeners() {
     const memeInputs = document.querySelector('.design-container')
     memeInputs.querySelector('.text-input.meme-text').addEventListener('input', onTextInput)
     memeInputs.querySelectorAll('.color').forEach(input => input.addEventListener('input', () => onSetTextProp(event.target.dataset.id, event.target.value)))
     memeInputs.querySelectorAll('.meme-button.size').forEach(button => button.addEventListener('click', onChangeFontSize))
     memeInputs.querySelector('.meme-button.selector').addEventListener('click', onSelectNextLine)
-    memeInputs.querySelectorAll('.meme-button.move').forEach(button => button.addEventListener('click', onMoveLine))
     memeInputs.querySelectorAll('.meme-button.align').forEach(button => button.addEventListener('click', ev => onSetTextProp('align', event.target.dataset.direction)))
     memeInputs.querySelector('.meme-button.add').addEventListener('click', onAddLine)
+}
+function addTouuchDesignConatinerListeners() {
+    const memeInputs = document.querySelector('.design-container')
+    memeInputs.querySelectorAll('.meme-button.size').forEach(button => button.addEventListener('touchstart', onChangeFontSize))
+    memeInputs.querySelector('.meme-button.selector').addEventListener('touchstart', onSelectNextLine)
+    memeInputs.querySelectorAll('.meme-button.align').forEach(button => button.addEventListener('touchstart', ev => onSetTextProp('align', event.target.dataset.direction)))
+    memeInputs.querySelector('.meme-button.add').addEventListener('touchstart', onAddLine)
 }
 
 function renderMeme() {
@@ -77,8 +90,15 @@ function checkRotate(ev) {
     return false
 }
 
-function onRotateElement({ x, y }) {
+function onRotateElement({ x, y }, ev) {
+    if (TOUCH_EVS.includes(ev.type)) {
+        ev.preventDefualt()
+        ev = ev.changedTouches[0]
+        x = ev.pageX - ev.target.offsetLeft - ev.target.clientLeft
+            y = ev.pageY - ev.target.offsetTop - ev.target.clientTop
+    }
     gElCanvas.addEventListener('mouseup', onUp)
+    gElCanvas.addEventListener('touchend', onUp)
     const meme = getMeme()
     const line = meme.lines[meme.selectedLineIdx]
     const angle = calculateAngularMovement(line, { x, y })
@@ -87,6 +107,12 @@ function onRotateElement({ x, y }) {
 }
 
 function onMove(ev) {
+    if (TOUCH_EVS.includes(ev.type)) {
+        ev.preventDefualt()
+        const touch = e.touches[0];
+        ev.movementX = touch.pageX - previousTouch.pageX
+        ev.movementY = touch.pageY - previousTouch.pageY
+    }
     const meme = getMeme()
     const line = meme.lines[meme.selectedLineIdx]
     const { movementX: x, movementY: y } = ev
@@ -100,6 +126,10 @@ function onUp() {
     gElCanvas.removeEventListener('mousemove', onMove)
     gElCanvas.removeEventListener('mousemove', onRotateElement)
     gElCanvas.removeEventListener('mouseup', onUp)
+    gElCanvas.removeEventListener('touchmove', onMove)
+    gElCanvas.removeEventListener('touchmove', onRotateElement)
+    gElCanvas.removeEventListener('touchend', onUp)
+    previousTouch = null
     setRotationCenter(-1)
 }
 
@@ -112,6 +142,7 @@ function checkLines(meme, { x, y }) {
             y <= lineY && y >= lineY - height) {
             setSelectedLine(idx)
             gElCanvas.addEventListener('mousemove', onMove)
+            gElCanvas.addEventListener('touchmove', onMove)
             selectedLine = idx
             setRotationCenter(idx)
             return true
@@ -173,18 +204,6 @@ function onSelectNextLine(ev) {
     const linesCount = meme.lines.length
     const nextLine = meme.selectedLineIdx === -1 ? 0 : (meme.selectedLineIdx + 1 + linesCount) % linesCount
     setSelectedLine(nextLine)
-    renderMeme()
-}
-
-function onMoveLine(ev) {
-    const meme = getMeme()
-    const idx = meme.selectedLineIdx
-    if (idx === -1) return
-    const line = meme.lines[idx]
-    const diff = +ev.target.dataset.direction * STEP_SIZE
-    const y = line.y + diff
-    setLinePos({ y: calculateNewY(y, line.size), idx })
-    setTextProp('align', 'none')
     renderMeme()
 }
 
