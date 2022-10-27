@@ -2,6 +2,7 @@
 @import url(basics.css);
 @import url(helpers.css);
 @import url(layout.css);
+@import url(components.css);
 @import url(gallery.css);
 @import url(editor.css);
 @import url(mobile-only.css);
@@ -11,6 +12,17 @@
 @import url(xtra-large.css);
 @import url(animations.css);
 
-* {
+:root{
+    /* PALETTE */
+    --bcg-primay: #ed593e;
+}
+
+*{
     box-sizing: border-box;
+}
+
+body{
+    background-image: url(../background/yellow.jpeg);
+    contain: cover;
+    border-image-repeat: no-repeat;
 }

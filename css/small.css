@@ -1,5 +1,5 @@
 @media (min-width:360px) {
-    .main-layout{
+    .main-layout > *:not(.full){
         margin-inline: 10px;
     }
     

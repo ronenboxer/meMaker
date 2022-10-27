@@ -1,3 +1,115 @@
-.main-layout{
+.main-layout > *:not(.full){
     margin-inline: 10px;
+}
+
+.full{
+    width: 100vw;
+}
+
+.main-header .main-nav{
+    height: fit-content;
+}
+
+.main-header .main-nav ul li a,
+    .main-header .logo{
+    padding-inline: 20px;
+    padding-block: 20px;
+}
+
+/* .gallery-section,
+.meme-section{
+} */
+
+.gallery-section .gallery-nav{
+    padding-block: 1rem;
+    margin-top: 60px;
+    margin-bottom: 40px;
+}
+
+.gallery-section .gallery-nav ul li ul li{
+    padding-block: .3em;
+}
+
+.gallery-section .gallery-container{
+    gap: 25px;
+}
+
+.meme-section .meme-editor .canvas-container,
+.meme-section .design-container{
+    max-width: 740px;
+}
+
+.meme-section > *{
+    margin-top: 60px;
+    margin-bottom: 40px;
+}
+
+.design-container{
+    grid-template: repeat(4,1fr) / repeat(5,1fr);
+    gap: 5px;
+}
+.design-container > *{
+    margin: auto;
+    font-size: 1.3rem;
+}
+
+.text-input.meme-text{
+    grid-column: 1/6;
+    grid-row: 1;
+}
+
+.meme-button.selector{
+    grid-column: 1;
+    grid-row: 2;
+}
+.meme-button.delete{
+    grid-column: 2;
+    grid-row: 2;
+}
+.meme-button.add{
+    grid-column: 3;
+    grid-row: 2;
+}
+.meme-button.size.up{
+    grid-column: 4;
+    grid-row: 2;
+}
+.meme-button.size.down{
+    grid-column: 5;
+    grid-row: 2;
+}
+.meme-button.align.start{
+    grid-column: 1;
+    grid-row: 3;
+}
+.meme-button.align.center{
+    grid-column: 2;
+    grid-row: 3;
+}
+.meme-button.align.end{
+    grid-column: 3;
+    grid-row: 3;
+}
+.meme-button.underline{
+    grid-column: 5;
+    grid-row: 3;
+}
+.meme-section .design-container select.font{
+    grid-column: 2/5;
+    grid-row: 4;
+    width: 100%;
+}
+.meme-section .design-container input.color.text{
+    grid-column: 1;
+    grid-row: 4;
+}
+.meme-section .design-container input.color.stroke{
+    grid-column: 5;
+    grid-row: 4
+}
+
+.meme-section .design-container .meme-text.text-input{
+    width: 100%;
+    font-size: 1.5em;
+    margin-block: .5em;
 }

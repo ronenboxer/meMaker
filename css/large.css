@@ -1,5 +1,11 @@
-@media (min-width:840px) {
-    .main-layout{
+@media (min-width:700px) {
+    .main-layout > *:not(.full){
         margin-inline:30px;
+    }
+
+    .meme-section{
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        max-width: 100%;
     }
 }
