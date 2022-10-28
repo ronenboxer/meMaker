@@ -3,36 +3,9 @@
 
 const DEFUALT_SIZE = 30
 const MEME_SOTAGE_KEY = 'memeDB'
-const KEYWORDS_STORAGE_KEY = 'keywordsDB'
-let gMemeImgs = [
-    { id: 1, keywords: ['trump', 'politics', 'arrogant'] },
-    { id: 2, keywords: ['dogs', 'cute', 'love'] },
-    { id: 3, keywords: ['lazy', 'dogs', 'baby', 'white', 'bed', 'cosy', 'fluffy'] },
-    { id: 4, keywords: ['cat', 'computer', 'hightech', 'lazy', 'uninterested', 'indifferent'] },
-    { id: 5, keywords: ['baby', 'beach', 'success', 'irony'] },
-    { id: 6, keywords: ['asians', 'hallmark', `curly hair don't care`, 'unbelieveble'] },
-    { id: 7, keywords: ['baby', 'amazed', 'into it', 'black', 'standing'] },
-    { id: 8, keywords: ['tell me more', 'sracasm', 'mad hatter'] },
-    { id: 9, keywords: ['mischiveous', 'asian', 'greedy', 'baby'] },
-    { id: 10, keywords: ['obama', 'politics', 'laughing', 'black', 'hood', 'winner'] },
-    { id: 11, keywords: ['boxing', 'homo', 'sweat', 'sports'] },
-    { id: 12, keywords: ['jesus', 'preacher'] },
-    { id: 13, keywords: ['cheers', 'leonardo', 'champange', 'toast', 'patronizing'] },
-    { id: 14, keywords: ['matrix', 'morfius', 'choice', 'pills', 'virtual', 'mysterious'] },
-    { id: 15, keywords: ['lotr', 'ticked off', 'not funny'] },
-    { id: 16, keywords: ['star wars', 'oh really', 'patronizing'] },
-    { id: 17, keywords: ['vladimir', 'putin', 'politics', 'holocaust', 'russia'] },
-    { id: 18, keywords: ['toy', 'story', 'buzz', 'everywhere', 'annoyed', 'pleased'] },
-]
-let gKeyWords = _loadKeywords()
 let gMemes = _loadMemes() || {}
-let gTxtFilter = ''
 let gMeme
 
-if (!gKeyWords) {
-    gKeyWords = {}
-    initKeywords()
-}
 
 function createMeme(imgId) {
     gMeme = {
@@ -73,7 +46,7 @@ function addLine(height) {
     const align = 'center'
     const color = 'black'
     const angle = 0
-    const line  = {y, txt, font, size, strokeColor, strokeSize, align, color, angle}
+    const line = { y, txt, font, size, strokeColor, strokeSize, align, color, angle }
     getXByAlignment(line)
     gMeme.lines.push(line)
     gMeme.selectedLineIdx = gMeme.lines.length - 1
@@ -120,46 +93,9 @@ function setSelectedLine(idx) {
 }
 
 
-function uploadImg(img) {
-    var reader = new FileReader()
-    reader.readAsDataURL(img)
-    reader.onloadend = ev => {
-        createMeme(makeId())
-        gMeme.url = ev.target.result
-
-
-        onMemeInit()
-    }
-}
-
 function deleteline() {
     gMeme.lines.splice(gMeme.selectedLineIdx, 1)
     gMeme.selectedLineIdx = -1
-
-
-}
-
-function mapKeyWords() {
-    gMemeImgs.forEach(img => {
-        img.keywords.forEach(word => {
-            if (!gKeyWords[word]) gKeyWords[word] = 0
-            gKeyWords[word]++
-        })
-    })
-    _saveKeywords()
-}
-
-function resetKeyWords() {
-    for (var word in gKeyWords) {
-        gKeyWords[word] = 16
-    }
-    _saveKeywords()
-}
-
-function initKeywords() {
-    mapKeyWords()
-    // resetKeyWords()
-    return gKeyWords
 }
 
 function saveNewMeme(imgSrc) {
@@ -175,37 +111,4 @@ function _saveMemes() {
 
 function _loadMemes() {
     return loadFromStorage(MEME_SOTAGE_KEY)
-}
-
-function _saveKeywords() {
-    saveToStorage(KEYWORDS_STORAGE_KEY, gKeyWords)
-}
-
-function _loadKeywords() {
-    return loadFromStorage(KEYWORDS_STORAGE_KEY)
-}
-
-function setFilter(txt) {
-    if (txt === undefined || txt === null) return
-    gTxtFilter = txt
-}
-
-function getFilteredMemeId() {
-    let ids = []
-    gMemeImgs.forEach(img => {
-        img.keywords.forEach(word => {
-            if (word.toLocaleLowerCase().startsWith(gTxtFilter.toLocaleLowerCase())) {
-                if (!ids.includes(img.id)) ids.push(img.id)
-            }
-        })
-    })
-    return ids
-}
-
-function getFilteredKeywordMap() {
-    let keywords = []
-    for (let word in gKeyWords) {
-        if (word.toLocaleLowerCase().startsWith(gTxtFilter.toLocaleLowerCase())) keywords.push(word)
-    }
-    return keywords
 }

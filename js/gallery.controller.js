@@ -1,6 +1,7 @@
 'use strict'
 
 function onGalleryInit(){
+    onCloseSavedMemesMenu()
     document.querySelector('.meme-section').classList.add('hidden')
     document.querySelector('.gallery-section').classList.remove('hidden')
     addGalleryListeners()
@@ -16,17 +17,13 @@ function renderGallery(){
     }).join('')
 }
 function addGalleryListeners(){
-    document.querySelector('.gallery-nav #file-input').addEventListener('input', onUploadimg)
+    // document.querySelector('.gallery-nav #file-input').addEventListener('input', onUploadimg)
     document.querySelector('.gallery-section .gallery-nav .text-filter').addEventListener('input', onSetFilter)
 }
 
 function onCreateMeme(imgId){
     createMeme(imgId)
     onMemeInit()
-}
-
-function onUploadimg(ev){
-    uploadImg(ev.target.files[0])
 }
 
 function onSetFilter(ev){

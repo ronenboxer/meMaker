@@ -8,6 +8,7 @@ let selectedLine = null
 let lastGrabPos
 
 function onMemeInit() {
+    onCloseSavedMemesMenu()
     if (!getMeme()) return
     document.querySelector('.gallery-section').classList.add('hidden')
     document.querySelector('.meme-section').classList.remove('hidden')
@@ -37,10 +38,10 @@ function addTouchlisteners() {
 function addMouseDesignConatinerListeners() {
     const memeInputs = document.querySelector('.design-container')
     memeInputs.querySelector('.text-input.meme-text').addEventListener('input', onTextInput)
-    memeInputs.querySelectorAll('.color').forEach(input => input.addEventListener('input', () => onSetTextProp(event.target.dataset.id, event.target.value)))
+    memeInputs.querySelectorAll('.color').forEach(input => input.addEventListener('input', ev => onSetTextProp(ev.target.dataset.id, ev.target.value)))
     memeInputs.querySelectorAll('.meme-button.size').forEach(button => button.addEventListener('click', onChangeFontSize))
     memeInputs.querySelector('.meme-button.selector').addEventListener('click', onSelectNextLine)
-    memeInputs.querySelectorAll('.meme-button.align').forEach(button => button.addEventListener('click', ev => onSetTextProp('align', event.target.dataset.direction)))
+    memeInputs.querySelectorAll('.meme-button.align').forEach(button => button.addEventListener('click', ev => onSetTextProp('align', ev.target.dataset.direction)))
     memeInputs.querySelector('.meme-button.add').addEventListener('click', onAddLine)
     memeInputs.querySelector('.meme-button.delete').addEventListener('click', onDelete)
     memeInputs.querySelector('.meme-button.save').addEventListener('click', onSave)
@@ -49,7 +50,7 @@ function addTouuchDesignConatinerListeners() {
     const memeInputs = document.querySelector('.design-container')
     memeInputs.querySelectorAll('.meme-button.size').forEach(button => button.addEventListener('touchstart', onChangeFontSize))
     memeInputs.querySelector('.meme-button.selector').addEventListener('touchstart', onSelectNextLine)
-    memeInputs.querySelectorAll('.meme-button.align').forEach(button => button.addEventListener('touchstart', ev => onSetTextProp('align', event.target.dataset.direction)))
+    memeInputs.querySelectorAll('.meme-button.align').forEach(button => button.addEventListener('touchstart', ev => onSetTextProp('align', ev.target.dataset.direction)))
     memeInputs.querySelector('.meme-button.add').addEventListener('touchstart', onAddLine)
     memeInputs.querySelector('.meme-button.delete').addEventListener('touch', onDelete)
     memeInputs.querySelector('.meme-button.save').addEventListener('touch', onSave)
@@ -157,7 +158,9 @@ function onTextInput(ev) {
 function onSetTextProp(prop, value) {
     const meme = getMeme()
     if (meme.selectedLineIdx === -1) return
+    const line = meme.lines[meme.selectedLineIdx]
     setTextProp(prop, value)
+    if (prop ==='align') setLinePos(getXByAlignment(line))
     renderMeme()
 
 }
