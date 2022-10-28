@@ -12,17 +12,17 @@
 <body class="full">
 
     <header class="main-header full main-layout flex space-between">
-        <div class="logo inline-block">meMaker</div>
+        <a class="logo inline-block nav-link" data-id="gallery" href="#">meMaker</a>
         <nav class="main-nav inline-block">
             <ul class="flex">
-                <li><a href="#" data-id="gallery">Gallery</a></li>
+                <li><a href="#" class="nav-link" data-id="gallery">Gallery</a></li>
                 <li class="dropdown-header position-relative">
-                    <a href="#" data-id="meme">Meme</a>
+                    <a href="#" class="nav-link" data-id="meme">Meme</a>
                     <ul class="dropdown-menu position-absolute"></ul>
                     <!-- <div class="position-absolute arrow-down"><iconify-icon icon="bi:chevron-compact-down"></iconify-icon></div> -->
                 </li>
-                <li><a href="#" data-id="lucky">Lucky?</a></li>
-                <li><a href="#" data-id="about">About</a></li>
+                <li><a href="#" class="nav-link" data-id="lucky">Lucky?</a></li>
+                <li><a href="#" class="nav-link" data-id="about">Manage</a></li>
             </ul>
         </nav>
     </header>
@@ -34,15 +34,6 @@
                     <ul>
                         <li>Search</li>
                         <li><input class="text-filter" list="possible-imgs" type="text"></li>
-                    </ul>
-                </li>
-                <li>
-                    <ul>
-                        <li>Upload</li>
-                        <li><label for="file-input">
-                            <iconify-icon inline icon="bxs:camera-plus"></iconify-icon>
-                            <input id="file-input" type="file" class="hidden"></li>
-                        </label>
                     </ul>
                 </li>
             </ul>
@@ -107,6 +98,14 @@
         </aside>
     </section>
 
+    <section class="modals-container position-relative full">
+        <section class="modal main-modal position-fixed flex column hidden-modal" data-id="main-modal">
+        </section>
+        <section class="modal secondary-modal position-fixed flex column hidden-modal" data-id="secondary-modal">
+        </section>
+    </section>
+
+    <div class="block-screen position-absolute hidden-modal" data-id="block-screen"></div>
     <datalist id="possible-imgs">
         
     </datalist>

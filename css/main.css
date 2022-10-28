@@ -25,6 +25,9 @@
 
 body{
     background-image: url(../background/yellow.jpeg);
-    contain: cover;
-    border-image-repeat: no-repeat;
+    /* background-clip: border-box; */
+    /* background-attachment: fixed; */
+    background-repeat: repeat-y;
+    /* background-size: cover; */
+    /* min-height: 100vh; */
 }

@@ -51,3 +51,14 @@
 .grid-auto-cols{
     grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
 }
+
+.hidden-modal{
+    opacity:0;
+    pointer-events: none;
+    transition: opacity .5s;
+}
+
+.shown-modal{
+    opacity: 1;
+    pointer-events: all;
+}

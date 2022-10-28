@@ -1,55 +1,199 @@
-.main-header{
+.block-screen {
+    background-color: rgba(0, 0, 0, 0.8);
+    width: 100vw;
+    height: 100vh;
+    top: 0%;
+    left: 0;
+    z-index: 15;
+}
+
+
+.main-header {
     color: rgb(234, 234, 234);
     background-color: var(--primary-orng);
     font-size: 1.25em;
 }
 
-.main-header .main-nav ul li a:hover{
+.main-header .main-nav ul li a:hover,
+.main-header a.logo:hover {
     text-decoration: underline;
     color: white;
     background-color: var(--light-orng);
 }
 
-.gallery-section .gallery-nav{
+.gallery-section .gallery-nav {
     background-color: var(--bcg-primay);
     box-shadow: 0 0 16px 4px rgb(136, 63, 23);
 }
-.gallery-section .gallery-nav li{
+
+.gallery-section .gallery-nav li {
     text-align: center;
     font-size: 1.2rem;
     color: white;
 }
-.gallery-section .gallery-nav label{
+
+.gallery-section .gallery-nav label {
     cursor: pointer;
 }
-.gallery-section .gallery-nav label:hover{
+
+.gallery-section .gallery-nav label:hover {
     color: black;
 }
 
 
-.gallery-section .gallery-container .gallery-img{
+.gallery-section .gallery-container .gallery-img {
     border-radius: 3px;
     box-shadow: 0 0 8px 4px black;
     cursor: pointer;
     transition: opacity box-shaddow .3s;
 }
 
-.gallery-section .gallery-container .gallery-img:hover{
+.gallery-section .gallery-container .gallery-img:hover {
     opacity: .9;
     box-shadow: 0 0 10px 5px black;
 }
 
-.meme-section .design-container{
+.meme-section .design-container {
     background-color: var(--bcg-primay);
     padding-block: 1rem;
     padding-inline: 15px;
 }
 
-.meme-section .design-container button{
+.meme-section .design-container button {
     padding-block: 10px;
     padding-inline: 11.605px;
     background-color: rgb(250, 194, 120);
     /* width: 3em; */
     border: none;
     border-radius: 0;
+}
+
+.main-modal {
+    height: 70vh;
+    width: 280px;
+}
+
+.secondary-modal{
+    max-height: 500px;
+}
+
+.modal {
+    background-color: rgb(35, 35, 35);
+    color: white;
+    margin-inline: 0;
+    z-index: 20;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.modal.shown-modal {
+    pointer-events: all;
+}
+
+.modal h2 {
+    font-size: 1em;
+    text-align: center;
+    background-color: #414141;
+    margin-block: 0;
+    padding-block: 1em;
+}
+
+.modal .modal-content {
+    overflow: scroll;
+    max-height: 100%;
+}
+
+
+.modal table {
+    margin-inline: auto;
+    border-collapse: collapse;
+    margin-block: 1rem;
+}
+
+.modal .imgs-table td,
+.modal .imgs-table tr {
+    padding: 10px 10px;
+    height: 81px;
+    text-align: center;
+}
+
+.modal table tbody tr {
+    border-top: 1px solid white;
+}
+
+.modal .imgs-table .meme-img {
+    width: 102px;
+}
+
+.modal .imgs-table .meme-img .img-placeholder {
+    margin: auto;
+    width: 40px;
+    height: 60px;
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    transition: all .2s;
+    position: relative;
+}
+
+.modal .imgs-table .meme-img .img-placeholder:hover {
+    width: 60px;
+    transform: scale(1.7);
+    border-radius: 3px;
+    box-shadow: 0 0 8px 3px rgb(60, 60, 60);
+    z-index: 21;
+}
+
+.modal .imgs-keywords td,
+.modal .imgs-keywords th{
+    padding-block: .75rem;
+    text-align: center;
+}
+
+.modal .imgs-keywords{
+    margin-inline: 20px;
+    overflow-y: scroll;
+}
+
+.modal button {
+    background-color: transparent;
+    border: none;
+    width: fit-content;
+    height: fit-content;
+    color: rgb(184, 184, 184);
+}
+
+.modal button:hover,
+.modal .modal-footer iconify-icon:hover {
+    color: white;
+}
+
+.modal .modal-footer,
+.modal .modal-footer button {
+    padding-block: 7.5px;
+    background-color: #414141;
+    text-align: center;
+    justify-content: space-around;
+    align-items: center;
+}
+
+
+
+.modal .modal-footer iconify-icon {
+    font-size: 1.6rem;
+    cursor: pointer;
+    color: rgb(184, 184, 184);
+}
+
+.secondary-modal {
+    z-index: 30;
+}
+
+.img-placeholder.delete-modal {
+    width: 200px;
+    height: 200px;
+    background-position: center;
+    background-size: cover;
+    margin: 20px 15px;
 }
