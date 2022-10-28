@@ -16,7 +16,11 @@
         <nav class="main-nav inline-block">
             <ul class="flex">
                 <li><a href="#" data-id="gallery">Gallery</a></li>
-                <li><a href="#" data-id="meme">Meme</a></li>
+                <li class="dropdown-header position-relative">
+                    <a href="#" data-id="meme">Meme</a>
+                    <ul class="dropdown-menu position-absolute"></ul>
+                    <!-- <div class="position-absolute arrow-down"><iconify-icon icon="bi:chevron-compact-down"></iconify-icon></div> -->
+                </li>
                 <li><a href="#" data-id="lucky">Lucky?</a></li>
                 <li><a href="#" data-id="about">About</a></li>
             </ul>
@@ -29,7 +33,7 @@
                 <li>
                     <ul>
                         <li>Search</li>
-                        <li><input type="text"></li>
+                        <li><input class="text-filter" list="possible-imgs" type="text"></li>
                     </ul>
                 </li>
                 <li>
@@ -62,7 +66,7 @@
         </main>
 
         <aside class="design-container grid ">
-                <input class="input text-input meme-text" type="text" placeholder="text">
+                <input class="input text-input meme-text" type="text" placeholder="BE FUNNY">
                 <button class="meme-button selector" data-direction="1">
                     <iconify-icon inline icon="charm:chevrons-up-down" data-direction="1"></iconify-icon>
                 </button>
@@ -90,6 +94,9 @@
                 <button class="meme-button underline">
                     <iconify-icon inline icon="icons8:underline"></iconify-icon>
                 </button>
+                <button class="meme-button save">
+                    <iconify-icon inline icon="entypo:save"></iconify-icon>
+                </button>
                 <input class="input color text" data-id="color" type="color">
                 <select class="font" id="font">
                     <option value="Impact">Impact</option>
@@ -100,6 +107,10 @@
         </aside>
     </section>
 
+    <datalist id="possible-imgs">
+        
+    </datalist>
+
     <script src="https://code.iconify.design/iconify-icon/1.0.1/iconify-icon.min.js"></script>
     <script src="js/services/utils.service.js"></script>
     <script src="js/services/storage.service.js"></script>
@@ -109,7 +120,7 @@
     <script src="js/services/meme.service.js"></script>
     <script src="js/gallery.controller.js"></script>
     <script src="js/meme.controller.js"></script>
-    <script src="js/main.js"></script>
+    <script src="js/main.controller.js"></script>
 </body>
 
 </html>

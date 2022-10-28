@@ -1,4 +1,4 @@
-@media (min-width:360px) {
+@media (min-width:400px) {
     .main-layout > *:not(.full){
         margin-inline: 10px;
     }

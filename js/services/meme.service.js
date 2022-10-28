@@ -26,70 +26,22 @@ let gMemeImgs = [
 ]
 let gKeyWords = _loadKeywords()
 let gMemes = _loadMemes() || {}
+let gTxtFilter = ''
+let gMeme
 
 if (!gKeyWords) {
     gKeyWords = {}
     initKeywords()
 }
 
-let gMeme 
-// = {
-//     imgId: 1,
-//     url: 'square.imgs/1.jpg',
-//     selectedLineIdx: -1,
-//     lines: [
-//         {
-//             txt: 'abanaibi dinin! kdjs',
-//             font: 'Impact',
-//             size: 10,
-//             strokeSize: 1,
-//             strokeColor: 'black',
-//             align: 'start',
-//             color: 'white'
-//         },
-//         {
-//             txt: 'I sometimes eat Falafel!!',
-//             font: 'Impact',
-//             size: 20,
-//             strokeSize: 1,
-//             strokeColor: 'black',
-//             align: 'start',
-//             color: 'red',
-//             // angle: Math.PI / 4,
-//             // x: 3,
-//             // y: 174
-//         },
-//         {
-//             txt: 'sefsdf, sdfsdfsdfs',
-//             font: 'Impact',
-//             size: 30,
-//             strokeSize: 1,
-//             strokeColor: 'black',
-//             align: 'end',
-//             color: 'brown'
-//         },
-//         {
-//             txt: 'hjkj lkjklkj kjkk123l',
-//             font: 'Impact',
-//             size: 40,
-//             strokeSize: 1,
-//             strokeColor: 'black',
-//             align: 'center',
-//             color: 'yellow'
-//         }
-//     ]
-// }
-
-
 function createMeme(imgId) {
     gMeme = {
-        memeId: makeId(),
         imgId,
         selectedLineIdx: 0,
         url: `square.imgs/${imgId}.jpg`,
         lines: [
             {
-                txt: 'Enter Text',
+                txt: 'BE FUNNY',
                 font: 'Impact',
                 size: DEFUALT_SIZE,
                 strokeSize: 1,
@@ -98,7 +50,7 @@ function createMeme(imgId) {
                 color: 'black'
             },
             {
-                txt: 'Enter Text',
+                txt: 'BE FUNNY',
                 font: 'Impact',
                 size: DEFUALT_SIZE,
                 strokeSize: 0,
@@ -108,7 +60,6 @@ function createMeme(imgId) {
             },
         ]
     }
-    _saveMemes()
 }
 
 function addLine(height) {
@@ -122,14 +73,28 @@ function addLine(height) {
     const align = 'center'
     const color = 'black'
     const angle = 0
-    gMeme.lines.push({ y, txt, font, size, strokeColor, strokeSize, align, color, angle })
+    const line  = {y, txt, font, size, strokeColor, strokeSize, align, color, angle}
+    getXByAlignment(line)
+    gMeme.lines.push(line)
     gMeme.selectedLineIdx = gMeme.lines.length - 1
-    getXByAlignment('center', gMeme.selectedLineIdx)
-    _saveMemes()
+
+
 }
 
 function getMeme() {
     return gMeme
+}
+
+function getAllMemes() {
+    let memes = []
+    for (var memeId in gMemes) {
+        memes.push(gMemes[memeId])
+    }
+    return memes
+}
+
+function setMeme(memeId) {
+    if (gMemes[memeId]) gMeme = gMemes[memeId]
 }
 
 function setLinePos({ x, y, angle }, idx = gMeme.selectedLineIdx) {
@@ -137,16 +102,20 @@ function setLinePos({ x, y, angle }, idx = gMeme.selectedLineIdx) {
     if (!isNaN(y)) gMeme.lines[idx].y = y
     if (!isNaN(x)) gMeme.lines[idx].x = x
     if (!isNaN(angle)) gMeme.lines[idx].angle = angle
-    _saveMemes()
+
+
 }
 
 function setTextProp(prop, value, idx = gMeme.selectedLineIdx) {
+    if (idx === -1) return
     const line = gMeme.lines[idx]
     line[prop] = value
-    _saveMemes()
+
+
 }
 
 function setSelectedLine(idx) {
+    if (!gMeme) return
     gMeme.selectedLineIdx = idx
 }
 
@@ -157,9 +126,17 @@ function uploadImg(img) {
     reader.onloadend = ev => {
         createMeme(makeId())
         gMeme.url = ev.target.result
-        _saveMemes()
+
+
         onMemeInit()
     }
+}
+
+function deleteline() {
+    gMeme.lines.splice(gMeme.selectedLineIdx, 1)
+    gMeme.selectedLineIdx = -1
+
+
 }
 
 function mapKeyWords() {
@@ -181,12 +158,18 @@ function resetKeyWords() {
 
 function initKeywords() {
     mapKeyWords()
-    resetKeyWords()
+    // resetKeyWords()
     return gKeyWords
 }
 
+function saveNewMeme(imgSrc) {
+    gMeme.src = imgSrc
+    if (!gMeme.id) gMeme.id = makeId()
+    gMemes[gMeme.id] = getHardCopy(gMeme)
+    _saveMemes()
+}
+
 function _saveMemes() {
-    gMemes[gMeme.id] = gMeme
     saveToStorage(MEME_SOTAGE_KEY, gMemes)
 }
 
@@ -200,4 +183,29 @@ function _saveKeywords() {
 
 function _loadKeywords() {
     return loadFromStorage(KEYWORDS_STORAGE_KEY)
+}
+
+function setFilter(txt) {
+    if (txt === undefined || txt === null) return
+    gTxtFilter = txt
+}
+
+function getFilteredMemeId() {
+    let ids = []
+    gMemeImgs.forEach(img => {
+        img.keywords.forEach(word => {
+            if (word.toLocaleLowerCase().startsWith(gTxtFilter.toLocaleLowerCase())) {
+                if (!ids.includes(img.id)) ids.push(img.id)
+            }
+        })
+    })
+    return ids
+}
+
+function getFilteredKeywordMap() {
+    let keywords = []
+    for (let word in gKeyWords) {
+        if (word.toLocaleLowerCase().startsWith(gTxtFilter.toLocaleLowerCase())) keywords.push(word)
+    }
+    return keywords
 }

@@ -3,18 +3,20 @@
 @import url(helpers.css);
 @import url(layout.css);
 @import url(components.css);
-@import url(gallery.css);
-@import url(editor.css);
+/* @import url(gallery.css);
+@import url(editor.css); */
 @import url(mobile-only.css);
 @import url(small.css);
 @import url(medium.css);
 @import url(large.css);
 @import url(xtra-large.css);
-@import url(animations.css);
+/* @import url(animations.css); */
 
 :root{
     /* PALETTE */
     --bcg-primay: #ed593e;
+    --primary-orng: rgba(223, 163, 85, .8);
+    --light-orng:  rgba(235, 205, 156, 0.9);
 }
 
 *{

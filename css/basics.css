@@ -38,3 +38,7 @@ a{
 input.text-input{
     max-height: 3em;
 }
+
+button{
+    cursor: pointer;
+}

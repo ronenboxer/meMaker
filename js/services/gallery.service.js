@@ -75,6 +75,7 @@ const gImgs = [
     }
 ]
 
-function getImgs(){
-    return gImgs
+function getFilteredImgs(){
+    const ids = getFilteredMemeId()
+    return gImgs.filter(img => ids.includes(img.id))
 }

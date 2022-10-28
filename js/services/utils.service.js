@@ -1,5 +1,7 @@
 'use strict'
 
+const TOUCH_EVS = ['touchstart', 'touchmove', 'touchend']
+
 function makeId(length = 6) {
     let txt = ''
     const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
@@ -39,7 +41,7 @@ function getPageNumsHtmlStr(currPageIdx, numOfPages, goToFunc) {
     var pageStr = ''
     if (numOfPages <= 1) return pageStr
     const firstPage = `<button class="page-index clickable" onclick="${goToFunc}(0)"><<</button>`
-    const lastPage = `<button class="page-index clickable" onclick="${goToFunc}(${numOfPages-1})">>></button>`
+    const lastPage = `<button class="page-index clickable" onclick="${goToFunc}(${numOfPages - 1})">>></button>`
     var i = currPageIdx > 0 ? currPageIdx - 1 : 0
     if (i > 0 && numOfPages >= 3) pageStr += firstPage
     for (i; i <= currPageIdx + 1 && i < numOfPages; i++) {
@@ -48,4 +50,34 @@ function getPageNumsHtmlStr(currPageIdx, numOfPages, goToFunc) {
     }
     if (i < numOfPages && numOfPages >= 3) pageStr += lastPage
     return pageStr
+}
+
+function getHardCopy(object) {
+    return JSON.parse(JSON.stringify(object))
+}
+
+function getEventPositions(ev) {
+    if (TOUCH_EVS.includes(ev.type)) {
+        ev.preventDefault()
+        return {
+            x: ev.pageX - ev.target.offsetLeft - ev.target.clientLeft,
+            y: ev.pageY - ev.target.offsetTop - ev.target.clientTop
+        }
+    }
+    return { x: ev.offsetX, y: ev.offsetY }
+}
+
+function getPositionsDelta(ev, lastGrabPos) {
+    if (TOUCH_EVS.includes(ev.type)) {
+        // ev.preventDefault()
+        const currGrabPos = getEventPositions(ev)
+        return {
+            x: currGrabPos.x - lastGrabPos.x,
+            y: currGrabPos.y - lastGrabPos.y
+        }
+    }
+    return {
+        x: ev.movementX,
+        y: ev.movementY
+    }
 }

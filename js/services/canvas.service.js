@@ -1,11 +1,17 @@
 'use strict'
 
 const MARGIN = 3
+const LINE_STYLES = {
+    solid: [],
+    dashed: [3, 3],
+}
 const MULTIPLIER = {
     start: 0,
     center: .5,
     end: 1
 }
+const SELECTED_RECT_DIFF = 1
+const SELECTED_LINE_COLOR = '#fed302'
 let gRotateCenter = { x: 0, y: 0 }
 
 function resizeCanvas() {
@@ -26,12 +32,11 @@ function setDrawStyle(width = 1, stroke = 'black', strokeLineStyle = 'solid', co
     gCtx.font = `${size}px ${font}`
 }
 
-function getXByAlignment(align, idx) {
-    const line = getMeme().lines[idx]
-    if (align === 'none') return line.x
-    const width = getElemetWidth(line)
-    const x = Math.abs((gElCanvas.width - width) * MULTIPLIER[align] - MARGIN)
-    setTextProp('x', x, idx)
+function getXByAlignment(line) {
+    if (line.align === 'none') return line.x
+    const width = line.width || setElementWidth(line)
+    const x = Math.abs((gElCanvas.width - width) * MULTIPLIER[line.align] - MARGIN)
+    setLinePos({x})
     return x
 }
 
@@ -42,12 +47,14 @@ function drawMeme(meme = getMeme()) {
         gCtx.clearRect(0, 0, gElCanvas.width, gElCanvas.height)
         drawImg(img)
         drawLines()
-        if (meme.selectedLineIdx !== -1) {
-            const line = meme.lines[meme.selectedLineIdx]
-            const { x, y } = line
-            const width = getElemetWidth(line)
-            drawRect(line, width, line.size, 1)
-        }
+        markSelectedElement(meme.selectedLineIdx)
+    }
+}
+
+function markSelectedElement(idx) {
+    if (idx !== -1) {
+        const line = getMeme().lines[idx]
+        drawRect(line)
     }
 }
 
@@ -58,17 +65,17 @@ function drawImg(img) {
 function drawLines() {
     const meme = getMeme()
     meme.lines.forEach((line, idx) => {
-        const { txt, font, size, align, color, angle } = line
+        let lineStartPos = { x: line.x, y: line.y }
         setTextStyle(line)
-        if (line.x && line.y) return drawText({ txt, font, size, x: getXByAlignment(align, idx), y: line.y, color, angle })
-        const { x, y } = setLineCoords(idx, meme.lines, gElCanvas.width, gElCanvas.height, align)
+        if (!line.x || !line.y) lineStartPos = getLineDefaultPos(idx, meme.lines, gElCanvas.height)
         gCtx.rotate(line.angle)
-        drawText({ txt, font, size, x, y, color, angle })
+        drawText(line)
         gCtx.setTransform(1, 0, 0, 1, 0, 0);
     })
 }
 
-function drawText({ txt, x, y, angle }) {
+function drawText({ txt, font, size, x, y, color, angle }) {
+
     gCtx.translate(gRotateCenter.x, gRotateCenter.y)
     gCtx.rotate(-angle)
     gCtx.translate(-gRotateCenter.x, -gRotateCenter.y)
@@ -77,30 +84,31 @@ function drawText({ txt, x, y, angle }) {
     gCtx.rotate(angle)
 }
 
-function drawRect(line, width, height, diff = 0) {
-    const { a, b, c, d } = getRectPositions({ x: line.x, y: line.y }, line.angle, width, height)
-    setDrawStyle(1, 'blue')
+function drawRect(line) {
+    const height = line.size
+    const { a, b, c, d } = getRectPositions(line)
+    setDrawStyle(1, SELECTED_LINE_COLOR, 'dashed')
     gCtx.beginPath()
-    gCtx.moveTo(a.x - diff, a.y + diff * .2 * height)
-    gCtx.lineTo(b.x - diff, b.y - diff)
-    gCtx.lineTo(c.x + diff, c.y - diff)
-    gCtx.lineTo(d.x + diff, d.y + diff * .2 * height)
+    gCtx.moveTo(a.x - SELECTED_RECT_DIFF, a.y + SELECTED_RECT_DIFF * .2 * height)
+    gCtx.lineTo(b.x - SELECTED_RECT_DIFF, b.y - SELECTED_RECT_DIFF)
+    gCtx.lineTo(c.x + SELECTED_RECT_DIFF, c.y - SELECTED_RECT_DIFF)
+    gCtx.lineTo(d.x + SELECTED_RECT_DIFF, d.y + SELECTED_RECT_DIFF * .2 * height)
     gCtx.closePath()
     gCtx.stroke()
     const x = (a.x + d.x) / 2
-    const y = (a.y + d.y) / 2 + .2 * diff * height
+    const y = (a.y + d.y) / 2 + .2 * SELECTED_RECT_DIFF * height
     // gRotateCenter = { x, y }
     // const bottomCenter = getElementsCenter({ x: a.x - diff, y: a.y + diff * .2 * height }, { x: d.x + diff, y: d.y + diff * .2 * height })
-    setDrawStyle(1, 'blue', 'solid', 'blue')
+    setDrawStyle(1, SELECTED_LINE_COLOR, 'solid', SELECTED_LINE_COLOR)
     drawCircle({ x, y }, 3)
 
 
 }
 
-function setLineCoords(idx, lines, canvasWidth, canvasHeight, align) {
+function getLineDefaultPos(idx, lines, canvasHeight) {
     const linesCount = lines.length
-    const x = getXByAlignment(align, idx)
-    if (linesCount === 1) return { x, y: lines[0].size }
+    const x = getXByAlignment(lines[idx])
+    if (linesCount === 1) return { x, y: (canvasHeight - lines[0].size) / 2 }
     const potentialHeight = canvasHeight - lines[0].size - 2 * MARGIN
     const y = potentialHeight * idx / (linesCount - 1) + lines[0].size + MARGIN
     setLinePos({ x, y, angle: 0 }, idx)
@@ -108,34 +116,33 @@ function setLineCoords(idx, lines, canvasWidth, canvasHeight, align) {
 }
 
 function isTooBig(line) {
-    const width = getElemetWidth(line)
+    const width = line.width || setElementWidth(line)
     return (width > gElCanvas.width - 2 * MARGIN || line.size > gElCanvas.height - 2 * MARGIN)
 }
 
 function isOnTheEdge(line, diff, idx) {
     const { x, y } = line
     let size = line.size + 1
-    const width = getElemetWidth(line)
+    const width = line.width || setElementWidth(line)
     if (!diff || idx === undefined) return (x + width > gElCanvas.width + MARGIN || y - size < MARGIN)
     return (x + diff.x <= MARGIN && diff.x < 0 || y + diff.y - line.size <= MARGIN && diff.y < 0 ||
         x + diff.x + width >= gElCanvas.width - MARGIN && diff.x > 0 || y + diff.y >= gElCanvas.height - MARGIN && diff.y > 0)
 }
 
 function fixPos(line) {
-    const width = getElemetWidth(line)
+    const width = line.width || setElementWidth(line)
     let x = line.x
     let y = line.y
-    if (width + x > gElCanvas.width + MARGIN) x--
+    if (width + x > gElCanvas.width - MARGIN) x--
     if (y - line.size < MARGIN) y++
     setLinePos({ x, y, idx: getMeme().selectedLineIdx })
 }
 
-function calculateNewY(y, size) {
-    if (y - size < MARGIN) return size + MARGIN
-    if (y > gElCanvas.height - MARGIN) return gElCanvas.height - MARGIN
-    return y
-
-}
+// function calculateNewY(y, size) {
+//     if (y - size < MARGIN) return size + MARGIN
+//     if (y > gElCanvas.height - MARGIN) return gElCanvas.height - MARGIN
+//     return y
+// }
 
 // function drawRect({ x, y }, { a, b, c, d }) {
 //     gCtx.beginPath()
@@ -149,9 +156,7 @@ function calculateNewY(y, size) {
 //     gCtx.stroke()
 // }
 
-function getRectPositions(start, angle, width, height) {
-    const { x, y } = start
-
+function getRectPositions({ x, y, angle, width, size:height }) {
     const a = { x, y }
     const d = {
         x: width * Math.cos(angle) + x,
@@ -175,11 +180,14 @@ function calculateAngularMovement(line, mousePos) {
 }
 
 function getElementsCenter(line) {
-    const width = getElemetWidth(line)
-    const height = line.size
-    const angle = line.angle
-    const x = (width * Math.cos(angle) - height * Math.sin(angle) + 2 * line.x) / 2
-    const y = (2 * line.y - width * Math.sin(angle) - height * Math.cos(angle)) / 2
+    const { a, c } = getRectPositions(line)
+    const width = line.width || setElementWidth(line)
+    // const height = line.size
+    // const angle = line.angle
+    // const x = (width * Math.cos(angle) - height * Math.sin(angle) + 2 * line.x) / 2
+    // const y = (2 * line.y - width * Math.sin(angle) - height * Math.cos(angle)) / 2
+    const x = (c.x + a.x) / 2
+    const y = (c.y + a.y) / 2
     return { x, y }
 }
 
@@ -193,6 +201,12 @@ function drawCircle({ x, y }, radius) {
     gCtx.arc(x, y, radius, 0, 2 * Math.PI)
     gCtx.stroke()
     gCtx.fill()
+}
+
+function setElementWidth(element){
+    const width = getElemetWidth(element)
+    setTextProp('width', width)
+    return width
 }
 
 function getElemetWidth(element) {
