@@ -188,7 +188,11 @@ function onDeleteLine() {
 }
 
 function onSaveMeme() {
-    saveNewMeme(gElCanvas.toDataURL('image/jpeg'))
+    setSelectedLine(-1)
+    renderMeme()
+    setTimeout(() => {
+        saveNewMeme(gElCanvas.toDataURL('image/jpeg'))
+    }, 20);
 }
 
 function onDownloadMeme(ev) {
