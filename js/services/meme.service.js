@@ -45,11 +45,10 @@ function addLine(height) {
     const strokeColor = 'white'
     const align = 'center'
     const color = 'black'
-    const angle = 0
-    const line = { y, txt, font, size, strokeColor, strokeSize, align, color, angle }
-    getXByAlignment(line)
+    const line = { y, txt, font, size, strokeColor, strokeSize, align, color }
     gMeme.lines.push(line)
     gMeme.selectedLineIdx = gMeme.lines.length - 1
+    getXByAlignment(line)
 
 
 }
@@ -70,21 +69,32 @@ function setMeme(memeId) {
     if (gMemes[memeId]) gMeme = gMemes[memeId]
 }
 
-function setLinePos({ x, y, angle }, idx = gMeme.selectedLineIdx) {
+function setLinePos({ x, y }, idx = gMeme.selectedLineIdx) {
     if (idx === -1) return
-    if (!isNaN(y)) gMeme.lines[idx].y = y
-    if (!isNaN(x)) gMeme.lines[idx].x = x
-    if (!isNaN(angle)) gMeme.lines[idx].angle = angle
+    setTextProp('y', y, idx)
+    setTextProp('x', x, idx)
 
 
 }
 
 function setTextProp(prop, value, idx = gMeme.selectedLineIdx) {
-    if (idx === -1) return
+    if (idx === -1 || !prop || value === null || value === undefined) return
     const line = gMeme.lines[idx]
     line[prop] = value
+}
 
-
+function translateTextDims(canvasWidth, canvasHeight, idx) {
+    if (isNaN(idx) || idx === -1) return
+    const line = gMeme.lines[idx]
+    const yRatio = canvasHeight / line.canvasHeight
+    const xRatio = canvasWidth / line.canvasHeight
+    if (xRatio === 1 && yRatio === 1) return
+    setTextProp('x', line.x * xRatio, idx)
+    setTextProp('y', line.y * yRatio, idx)
+    setTextProp('size', line.size * yRatio, idx)
+    setTextProp('width', getElemetWidth(line), idx)
+    setTextProp('canvasWidth', canvasWidth, idx)
+    setTextProp('canvasHeight', canvasHeight, idx)
 }
 
 function setSelectedLine(idx) {

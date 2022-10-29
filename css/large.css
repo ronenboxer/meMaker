@@ -1,11 +1,17 @@
-@media (min-width:700px) {
+@media (min-width:900px) {
     .main-layout > *:not(.full){
         margin-inline:30px;
     }
 
+    .main-modal {
+        width: 500px;
+    }
+
+    .modal .imgs-table td, .modal .imgs-table tr {
+        padding: 10px 10px;
+    }
+
     .meme-section{
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        max-width: 100%;
+        display: flex;
     }
 }

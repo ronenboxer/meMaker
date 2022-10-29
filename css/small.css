@@ -1,6 +1,60 @@
 @media (min-width:400px) {
-    .main-layout > *:not(.full){
+    .main-layout>*:not(.full, .canvas-container) {
         margin-inline: 10px;
     }
-    
+
+    .canvas-container {
+        justify-content: center;
+    }
+
+    .meme-section div.help{
+        flex-wrap: nowrap;
+        flex-grow: 1;
+    }
+    .meme-section .search {
+        max-width: 100%;
+        flex-grow: 1;
+        margin-inline: inherit;
+    }
+
+    .main-modal {
+        width: 320px;
+    }
+
+    .secondary-modal {
+        height: 560px;
+    }
+
+    .modal .modal-content {
+        flex-grow: 1;
+    }
+
+    .modal h2 {
+        font-size: 1.2em;
+    }
+
+    .modal .imgs-keywords td,
+    .modal .imgs-keywords th {
+        padding: 1.2rem 20px;
+    }
+
+    .modal .imgs-table td iconify-icon {
+        font-size: 1.3rem;
+    }
+
+    .modal .imgs-table .meme-img .img-placeholder {
+        width: 100px;
+        height: 100px;
+    }
+
+    .modal .imgs-table .meme-img .img-placeholder:hover {
+        width: 100px;
+        height: 100px;
+        transform: scale(1.5);
+    }
+
+    .img-placeholder.delete-modal {
+        width: 63vw;
+        flex-grow: 1;
+    }
 }

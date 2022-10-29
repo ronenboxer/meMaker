@@ -1,5 +1,70 @@
-@media (min-width:580px) {
-    .main-layout > *:not(.full){
+@media (min-width:630px) {
+    .main-layout>*:not(.full) {
         margin-inline: 15px;
+    }
+
+    .main-header {
+        align-items: center;
+    }
+
+    .main-header .main-nav {
+        margin-top: 20px;
+    }
+
+    .menu-icon {
+        display: none;
+    }
+
+    .main-header .main-nav ul {
+        background-color: transparent;
+        pointer-events: all;
+        opacity: 1;
+        height: 70px;
+    }
+
+    .main-header .main-nav>ul>li {
+        height: unset;
+        margin-top: unset;
+    }
+
+    .main-header .main-nav ul li a {
+        margin-top: 0px;
+    }
+
+    .main-nav > ul {
+        display: flex;
+        top: 0;
+        right: 15px;
+        /* position: unset; */
+    }
+
+    .main-header .main-nav .dropdown-menu {
+        margin-inline: unset;
+    }
+    .main-header .main-nav .make-place.shown{
+        margin-top: unset;
+    }
+
+    .meme-section{
+        /* display: grid; */
+        grid-template-columns: 1fr 1fr;
+        max-width: 100%;
+    }
+    .meme-section .design-container,
+    .meme-section .search  {
+        margin: auto;
+    }
+    .main-modal {
+        width: 435px;
+        height: 77%;
+    }
+
+    .modal .imgs-table th {
+        padding-inline: 35px;
+    }
+
+    .img-placeholder.delete-modal {
+        width: 350px;
+        height: unset;
     }
 }

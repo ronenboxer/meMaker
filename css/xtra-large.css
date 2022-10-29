@@ -1,11 +1,20 @@
 @media (min-width:1160px) {
-    .main-layout > *:not(.full){
+    .main-layout>*:not(.full) {
         max-width: 1100px;
+        margin-left: 50% !important;
+        transform: translateX(-50%);
+        width: 100%;
     }
-    body > *{
+
+    .main-header>div {
+        width: 1100px !important;
         margin: auto;
     }
-    .meme-section .design-container{
-        max-width: 315px;
+    /* .main-header .main-nav > ul{
+        padding-inline-end: auto;
+    } */
+    body>* {
+        margin: auto;
     }
 }
+

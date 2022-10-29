@@ -62,3 +62,13 @@
     opacity: 1;
     pointer-events: all;
 }
+
+/* cursor-helpers */
+.grabbable {
+    cursor: move; /* fallback if grab cursor is unsupported */
+    cursor: grab;
+}
+
+.grabbable:active {
+    cursor: grabbing;
+}

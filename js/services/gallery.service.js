@@ -1,8 +1,9 @@
 'use strict'
 
 const IMGS_STORAGE_KEY = 'imgsDB'
+const KEYWORDS_STORAGE_KEY = 'keywordsDB'
 let gImgs = _loadImgs()
-let gKeywordsMap = {}
+let gKeywordsMap = _loadKeywords()
 let gTxtFilter = ''
 mapKeyWords()
 
@@ -94,6 +95,15 @@ function getFilteredKeywordMap() {
     return keywords
 }
 
+function getKeywordMap(){
+    return gKeywordsMap
+}
+
+function updateKeywordsMap(keyword){
+    gKeywordsMap[keyword]++
+    _saveKeywords(KEYWORDS_STORAGE_KEY)
+}
+
 function getFilteredImgs(filter = gTxtFilter) {
     const ids = getFilteredMemeId(filter)
     return gImgs.filter(img => {
@@ -112,6 +122,17 @@ function getFilteredMemeId(filter) {
         })
     })
     return ids
+}
+
+
+function _saveKeywords(){
+    saveToStorage(KEYWORDS_STORAGE_KEY, gKeywordsMap)
+}
+
+function _loadKeywords(){
+    const keywords =  loadFromStorage(KEYWORDS_STORAGE_KEY)
+    if (!keywords || !keywords.length) return {}
+    return keywords
 }
 
 function _saveImgs() {

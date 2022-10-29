@@ -10,7 +10,7 @@ let lastGrabPos
 function onMemeInit() {
     onCloseSavedMemesMenu()
     if (!getMeme()) return
-    document.querySelector('.gallery-section').classList.add('hidden')
+    document.querySelector('.gallery-section .gallery-nav').classList.add('hidden')
     document.querySelector('.meme-section').classList.remove('hidden')
     gElCanvas = document.querySelector('canvas')
     gCtx = gElCanvas.getContext('2d')
@@ -27,9 +27,9 @@ function addListeners() {
 
 function addMouselisteners() {
     gElCanvas.addEventListener('mousedown', onDown)
-    // document.querySelector('html').addEventListener('mousedown', onDown)
     addMouseDesignConatinerListeners()
 }
+
 function addTouchlisteners() {
     gElCanvas.addEventListener('touchstart', onDown)
     addTouuchDesignConatinerListeners()
@@ -40,20 +40,25 @@ function addMouseDesignConatinerListeners() {
     memeInputs.querySelector('.text-input.meme-text').addEventListener('input', onTextInput)
     memeInputs.querySelectorAll('.color').forEach(input => input.addEventListener('input', ev => onSetTextProp(ev.target.dataset.id, ev.target.value)))
     memeInputs.querySelectorAll('.meme-button.size').forEach(button => button.addEventListener('click', onChangeFontSize))
+    memeInputs.querySelectorAll('select.font').forEach(button => button.addEventListener('input', ev => onSetTextProp('font', ev.target.value)))
     memeInputs.querySelector('.meme-button.selector').addEventListener('click', onSelectNextLine)
     memeInputs.querySelectorAll('.meme-button.align').forEach(button => button.addEventListener('click', ev => onSetTextProp('align', ev.target.dataset.direction)))
     memeInputs.querySelector('.meme-button.add').addEventListener('click', onAddLine)
-    memeInputs.querySelector('.meme-button.delete').addEventListener('click', onDelete)
-    memeInputs.querySelector('.meme-button.save').addEventListener('click', onSave)
+    memeInputs.querySelector('.meme-button.delete').addEventListener('click', onDeleteLine)
+    memeInputs.querySelector('.meme-button.save').addEventListener('click', onSaveMeme)
+    memeInputs.querySelector('.meme-button.share').addEventListener('click', onDownloadMeme)
+
+    gElCanvas.addEventListener('mousemove', isHoveringAboutElement)
 }
+
 function addTouuchDesignConatinerListeners() {
     const memeInputs = document.querySelector('.design-container')
     memeInputs.querySelectorAll('.meme-button.size').forEach(button => button.addEventListener('touchstart', onChangeFontSize))
     memeInputs.querySelector('.meme-button.selector').addEventListener('touchstart', onSelectNextLine)
     memeInputs.querySelectorAll('.meme-button.align').forEach(button => button.addEventListener('touchstart', ev => onSetTextProp('align', ev.target.dataset.direction)))
     memeInputs.querySelector('.meme-button.add').addEventListener('touchstart', onAddLine)
-    memeInputs.querySelector('.meme-button.delete').addEventListener('touch', onDelete)
-    memeInputs.querySelector('.meme-button.save').addEventListener('touch', onSave)
+    memeInputs.querySelector('.meme-button.delete').addEventListener('touch', onDeleteLine)
+    memeInputs.querySelector('.meme-button.save').addEventListener('touch', onSaveMeme)
 }
 
 function renderMeme() {
@@ -61,52 +66,35 @@ function renderMeme() {
     if (!meme) return
     drawMeme(meme)
     const idx = meme.selectedLineIdx
-    if (idx !== -1) setMemeDesignVals(meme.lines[idx])
+    if (idx !== -1) setMemeDesignInputVals(meme.lines[idx])
+}
+
+
+function isHoveringAboutElement(ev) {
+    const { offsetX: x, offsetY: y } = ev
+    const meme = getMeme()
+    if (checkMemeElements(meme, { x, y })) {
+        gElCanvas.classList.add('grabbable')
+    }
+    else gElCanvas.classList.remove('grabbable')
 }
 
 function onDown(ev) {
     const { x, y } = getEventPositions(ev)
     lastGrabPos = { x, y }
+    if (TOUCH_EVS.includes(ev.type)) gElCanvas.classList.add('grabbable')
     gElCanvas.addEventListener('mouseup', onUp)
     const meme = getMeme()
-    if (checkRotate(ev)) return
-    else checkMemeElements(meme, { x, y })
-}
-
-function checkRotate(ev) {
-    // const meme = getMeme()
-    // const line = meme.lines[meme.selectedLineIdx]
-    // if (!line) return
-    // const { x, y } = line
-    // const { a, b, c, d } = getRectPositions({ x, y }, line.angle, getElemetWidth(line), 0)
-    // const lineBottomCenter = { x: (a.x + d.x) / 2, y: (a.y + d.y) / 2 }
-    // const distance = getDistance({ x: ev.offsetX, y: ev.offsetY }, lineBottomCenter)
-    // if (distance <= 10) {
-    //     onRotateElement({ x: ev.offsetX, y: ev.offsetY })
-    //     gElCanvas.addEventListener('mousemove', onRotateElement)
-    //     return true
-    // }
-    return false
-}
-
-function onRotateElement({ x, y }, ev) {
-    if (TOUCH_EVS.includes(ev.type)) {
-        ev.preventDefualt()
-        ev = ev.changedTouches[0]
-        x = ev.pageX - ev.target.offsetLeft - ev.target.clientLeft
-        y = ev.pageY - ev.target.offsetTop - ev.target.clientTop
-    }
-    gElCanvas.addEventListener('mouseup', onUp)
-    gElCanvas.addEventListener('touchend', onUp)
-    const meme = getMeme()
-    const line = meme.lines[meme.selectedLineIdx]
-    const angle = calculateAngularMovement(line, { x, y })
-    setTextProp('angle', angle)
+    if (checkMemeElements(meme, { x, y })) {
+        gElCanvas.addEventListener('mousemove', onMove)
+        gElCanvas.addEventListener('touchmove', onMove)
+    } else setSelectedLine(-1)
     renderMeme()
 }
 
 function onMove(ev) {
     const { x, y } = getEventPositions(ev)
+    gElCanvas.removeEventListener('mousemove', isHoveringAboutElement)
     const delta = getPositionsDelta(ev, lastGrabPos)
     lastGrabPos = { x, y }
     const meme = getMeme()
@@ -124,30 +112,23 @@ function onMove(ev) {
 
 function onUp() {
     gElCanvas.removeEventListener('mousemove', onMove)
-    gElCanvas.removeEventListener('mousemove', onRotateElement)
     gElCanvas.removeEventListener('mouseup', onUp)
     gElCanvas.removeEventListener('touchmove', onMove)
-    gElCanvas.removeEventListener('touchmove', onRotateElement)
     gElCanvas.removeEventListener('touchend', onUp)
+    gElCanvas.addEventListener('mousemove', isHoveringAboutElement)
     lastGrabPos = null
-    setRotationCenter(-1)
 }
 
 function checkMemeElements(meme, { x, y }) {
-    const isOnLine = meme.lines.some((line, idx) => {
+    return meme.lines.some((line, idx) => {
         const { width, size: height } = line
         const { x: lineX, y: lineY } = line
         if (x >= lineX && x <= lineX + width &&
             y <= lineY && y >= lineY - height) {
             setSelectedLine(idx)
-            gElCanvas.addEventListener('mousemove', onMove)
-            gElCanvas.addEventListener('touchmove', onMove)
-            setRotationCenter(idx)
             return true
         }
     })
-    if (!isOnLine) setSelectedLine(-1)
-    renderMeme()
 }
 
 function onTextInput(ev) {
@@ -160,15 +141,14 @@ function onSetTextProp(prop, value) {
     if (meme.selectedLineIdx === -1) return
     const line = meme.lines[meme.selectedLineIdx]
     setTextProp(prop, value)
-    if (prop ==='align') setLinePos(getXByAlignment(line))
+    if (prop === 'align') setLinePos(getXByAlignment(line))
+    if (prop === 'font') setTextProp('width', getElemetWidth(line))
     renderMeme()
-
 }
 
 function onChangeFontSize(ev) {
     const meme = getMeme()
     if (meme.selectedLineIdx === -1) return
-
     const line = meme.lines[meme.selectedLineIdx]
     const currFontSize = line.size
     const diff = +ev.target.dataset.direction
@@ -180,7 +160,7 @@ function onChangeFontSize(ev) {
     renderMeme()
 }
 
-function setMemeDesignVals(line) {
+function setMemeDesignInputVals(line) {
     const memeInputs = document.querySelector('.design-container')
     memeInputs.querySelector('.meme-text').value = line.txt === 'Enter Text' ? '' : line.txt
     memeInputs.querySelectorAll('button.size').forEach(button => button.dataset.size = line.size)
@@ -200,18 +180,20 @@ function onAddLine() {
     renderMeme()
 }
 
-function onDelete() {
+function onDeleteLine() {
     const meme = getMeme()
     if (!meme || meme.selectedLineIdx === -1) return
     deleteline()
     renderMeme()
 }
 
-function onSave() {
-    setSelectedLine(-1)
-    renderMeme()
-    setTimeout(() => {
-        saveNewMeme(gElCanvas.toDataURL('image/jpeg'))
-        onGalleryInit()
-    }, 10);
+function onSaveMeme() {
+    saveNewMeme(gElCanvas.toDataURL('image/jpeg'))
 }
+
+function onDownloadMeme(ev) {
+    const imgContent = gElCanvas.toDataURL('image/jpeg')
+    ev.target.href = imgContent
+}
+
+

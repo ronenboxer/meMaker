@@ -1,12 +1,12 @@
 html{
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    overflow-x: hidden;
 }
 
 body{
     margin: 0;
     line-height: 1.25;
     letter-spacing: .03em;
-    overflow-x: hidden;
 }
 
 body.rtl{
@@ -15,7 +15,7 @@ body.rtl{
 
 ul{
     list-style: none;
-    padding: 0;
+    padding-inline-start: 0;
 }
 
 .gallery-img{

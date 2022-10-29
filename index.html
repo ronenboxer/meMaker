@@ -12,31 +12,103 @@
 <body class="full">
 
     <header class="main-header full main-layout flex space-between">
-        <a class="logo inline-block nav-link" data-id="gallery" href="#">meMaker</a>
-        <nav class="main-nav inline-block">
-            <ul class="flex">
-                <li><a href="#" class="nav-link" data-id="gallery">Gallery</a></li>
-                <li class="dropdown-header position-relative">
-                    <a href="#" class="nav-link" data-id="meme">Meme</a>
-                    <ul class="dropdown-menu position-absolute"></ul>
-                    <!-- <div class="position-absolute arrow-down"><iconify-icon icon="bi:chevron-compact-down"></iconify-icon></div> -->
-                </li>
-                <li><a href="#" class="nav-link" data-id="lucky">Lucky?</a></li>
-                <li><a href="#" class="nav-link" data-id="about">Manage</a></li>
-            </ul>
-        </nav>
+        <div>
+            <a class="logo inline-block nav-link" data-id="gallery" href="#">meMaker</a>
+            <nav class="main-nav inline-block">
+                <div class="menu-icon menu-icon-trigger position-absolute">
+                    <span class="menu-icon-trigger"></span>
+                    <span class="menu-icon-trigger"></span>
+                    <span class="menu-icon-trigger"></span>
+                </div>
+                <ul>
+                    <li><a href="#" class="nav-link" data-id="gallery">Gallery</a></li>
+                    <li class="dropdown-header position-relative">
+                        <a href="#" class="nav-link" data-id="meme">Meme</a>
+                        <ul class="dropdown-menu position-absolute flex column"></ul>
+                    </li>
+                    <li><a href="#" class="nav-link make-place" data-id="lucky">Lucky?</a></li>
+                    <li><a href="#" class="nav-link" data-id="about">Manage</a></li>
+                </ul>
+            </nav>
+        </div>
     </header>
 
+    <section class="meme-section full main-layout">
+        <main class="meme-editor canvas-container flex">
+            <canvas id="meme"></canvas>
+        </main>
+        <div class="flex wrap help">
+            <aside class="design-container ">
+                <input class="input text-input meme-text" type="text" placeholder="BE FUNNY">
+                <div class="design-btns-container grid">
+
+                    <button class="meme-button selector corner" data-direction="1">
+                        <iconify-icon inline icon="charm:chevrons-up-down" data-direction="1"></iconify-icon>
+                    </button>
+                    <button class="meme-button delete" data-id="delete">
+                        <iconify-icon inline icon="ant-design:delete-outlined" data-id="delete"></iconify-icon>
+                    </button>
+                    <button class="meme-button add" data-id="add">
+                        <iconify-icon inline icon="akar-icons:plus" data-id="add"></iconify-icon>
+                    </button>
+                    <button class="meme-button size up" data-direction="1">
+                        <iconify-icon inline icon="ooui:bigger" data-direction="1"></iconify-icon>
+                    </button>
+                    <button class="meme-button size down corner" data-direction="-1">
+                        <iconify-icon inline icon="ooui:smaller" data-direction="-1"></iconify-icon>
+                    </button>
+                    <button class="meme-button align start corner" data-direction="start">
+                        <iconify-icon inline icon="bx:align-left" data-direction="start"></iconify-icon>
+                    </button>
+                    <button class="meme-button align center" data-direction="center">
+                        <iconify-icon inline icon="bx:align-middle" data-direction="center"></iconify-icon>
+                    </button>
+                    <button class="meme-button align end" data-direction="end">
+                        <iconify-icon inline icon="bx:align-right" data-direction="end"></iconify-icon>
+                    </button>
+                    <a href="#" class="meme-button share" download="my-img.jpg">
+                        <iconify-icon icon="entypo:share-alternitive"></iconify-icon>
+                    </a>
+                    <button class="meme-button save corner">
+                        <iconify-icon inline icon="entypo:save"></iconify-icon>
+                    </button>
+
+                </div>
+                <input class="input color text" data-id="color" type="color">
+                <select class="font" id="font">
+                    <option value="Impact">Impact</option>
+                    <option value="fasthand">Fasthand</option>
+                    <option value="island-moments">Island Moments</option>
+                    <option value="rubik">Rubik</option>
+                    <option value="shalimar">shalimar</option>
+                    <option value="roboto">Roboto</option>
+                    <option value="Gill Sans">Gill Sans</option>
+                    <option value="Lucia Sans">Lucia Sans</option>
+                    <option value="Times New Roman">Times New Roman</option>
+                    <option value="Verdana">Verdana</option>
+                    <option value="Geneva">Geneva</option>
+                </select>
+                <input class="input color stroke" data-id="strokeColor" type="color">
+            </aside>
+
+            <section class="search">
+                <input class="text-filter meme-text" list="possible-imgs" type="text" placeholder="search">
+                <p class="most-searched"></p>
+            </section>
+        </div>
+        </div>
+    </section>
     <section class="gallery-section main-layout full">
         <nav class="gallery-nav full main-layout">
-            <ul class="flex space-between">
-                <li>
-                    <ul>
-                        <li>Search</li>
-                        <li><input class="text-filter" list="possible-imgs" type="text"></li>
-                    </ul>
-                </li>
-            </ul>
+            <div class="flex">
+
+                <ul class="inline-block">
+                    <li>Search</li>
+                    <li><input class="text-filter" list="possible-imgs" type="text"></li>
+                </ul>
+                <p class="most-searched">
+                </p>
+            </div>
         </nav>
 
         <main class="gallery-container grid grid-auto-cols"></main>
@@ -51,52 +123,7 @@
         <section class="pages-section"></section>
     </section>
 
-    <section class="meme-section full main-layout">
-        <main class="meme-editor canvas-container  ">
-                <canvas id="meme"></canvas>
-        </main>
 
-        <aside class="design-container grid ">
-                <input class="input text-input meme-text" type="text" placeholder="BE FUNNY">
-                <button class="meme-button selector" data-direction="1">
-                    <iconify-icon inline icon="charm:chevrons-up-down" data-direction="1"></iconify-icon>
-                </button>
-                <button class="meme-button delete" data-id="delete">
-                    <iconify-icon inline icon="ant-design:delete-outlined" data-id="delete"></iconify-icon>
-                </button>
-                <button class="meme-button add" data-id="add">
-                    <iconify-icon inline icon="akar-icons:plus" data-id="add"></iconify-icon>
-                </button>
-                <button class="meme-button size up" data-direction="1">
-                    <iconify-icon inline icon="ooui:bigger" data-direction="1"></iconify-icon>
-                </button>
-                <button class="meme-button size down" data-direction="-1">
-                    <iconify-icon inline icon="ooui:smaller" data-direction="-1"></iconify-icon>
-                </button>
-                <button class="meme-button align start" data-direction="start">
-                    <iconify-icon inline icon="bx:align-left" data-direction="start"></iconify-icon>
-                </button>
-                <button class="meme-button align center" data-direction="center">
-                    <iconify-icon inline icon="bx:align-middle" data-direction="center"></iconify-icon>
-                </button>
-                <button class="meme-button align end" data-direction="end">
-                    <iconify-icon inline icon="bx:align-right" data-direction="end"></iconify-icon>
-                </button>
-                <button class="meme-button underline">
-                    <iconify-icon inline icon="icons8:underline"></iconify-icon>
-                </button>
-                <button class="meme-button save">
-                    <iconify-icon inline icon="entypo:save"></iconify-icon>
-                </button>
-                <input class="input color text" data-id="color" type="color">
-                <select class="font" id="font">
-                    <option value="Impact">Impact</option>
-                </select>
-                <input class="input color stroke" data-id="strokeColor" type="color">
-            <!-- <button class="meme-button move" data-direction="-1">move up</button>
-            <button class="meme-button move" data-direction="1">move down</button> -->
-        </aside>
-    </section>
 
     <section class="modals-container position-relative full">
         <section class="modal main-modal position-fixed flex column hidden-modal" data-id="main-modal">
@@ -105,15 +132,14 @@
         </section>
     </section>
 
-    <div class="block-screen position-absolute hidden-modal" data-id="block-screen"></div>
+    <div class="block-screen position-absolute full hidden-modal" data-id="block-screen"></div>
     <datalist id="possible-imgs">
-        
+
     </datalist>
 
     <script src="https://code.iconify.design/iconify-icon/1.0.1/iconify-icon.min.js"></script>
     <script src="js/services/utils.service.js"></script>
     <script src="js/services/storage.service.js"></script>
-    <script src="js/services/i18.service.js"></script>
     <script src="js/services/canvas.service.js"></script>
     <script src="js/services/gallery.service.js"></script>
     <script src="js/services/meme.service.js"></script>

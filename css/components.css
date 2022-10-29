@@ -11,7 +11,65 @@
 .main-header {
     color: rgb(234, 234, 234);
     background-color: var(--primary-orng);
-    font-size: 1.25em;
+    font-size: 1.5em;
+    height: 70px;
+    align-items: center;
+}
+
+.menu-icon {
+    width: 60px;
+    height: 45px;
+    transform: rotate(0deg);
+    transition: .5s ease-in-out;
+    cursor: pointer;
+    transform: scale(.7);
+    right: 0;
+    top: 12.5px;
+}
+
+.menu-icon span {
+    display: block;
+    position: absolute;
+    height: 2px;
+    width: 100%;
+    background: #ffffff;
+    border-radius: 9px;
+    opacity: 1;
+    left: 0;
+    transform: rotate(0deg);
+    transition: .25s ease-in-out;
+}
+
+.menu-icon span:nth-child(1) {
+    top: 0px;
+    transform-origin: left center;
+}
+
+.menu-icon span:nth-child(2) {
+    top: 18px;
+}
+
+.menu-icon span:nth-child(3) {
+    top: 36px;
+}
+
+.menu-icon.shown span:nth-child(1) {
+    transform: rotate(45deg);
+    top: -3px;
+    left: 8px;
+}
+
+.menu-icon.shown span:nth-child(2) {
+    width: 0%;
+    opacity: 0;
+    transform-origin: left center;
+}
+
+.menu-icon.shown span:nth-child(3) {
+    transform: rotate(-45deg);
+    top: 39px;
+    left: 8px;
+    transform-origin: left center;
 }
 
 .main-header .main-nav ul li a:hover,
@@ -39,13 +97,20 @@
 .gallery-section .gallery-nav label:hover {
     color: black;
 }
+p.most-searched a{
+    background-color: #f27d68;
+}
+p.most-searched a:hover{
+    text-decoration: underline;
+    color: white !important;
+}
 
 
 .gallery-section .gallery-container .gallery-img {
     border-radius: 3px;
     box-shadow: 0 0 8px 4px black;
     cursor: pointer;
-    transition: opacity box-shaddow .3s;
+    transition: opacity .3s;
 }
 
 .gallery-section .gallery-container .gallery-img:hover {
@@ -53,27 +118,42 @@
     box-shadow: 0 0 10px 5px black;
 }
 
-.meme-section .design-container {
+.meme-section .design-container,
+.meme-section .search {
     background-color: var(--bcg-primay);
     padding-block: 1rem;
     padding-inline: 15px;
 }
 
-.meme-section .design-container button {
-    padding-block: 10px;
+.meme-section .design-container button.meme-button,
+.meme-section .design-container a.meme-button.share {
+    padding-block: 10px !important;
     padding-inline: 11.605px;
     background-color: rgb(250, 194, 120);
+    font-size: .833rem;
     /* width: 3em; */
     border: none;
+}
+
+.meme-section .design-container a.meme-button.share,
+.meme-section .design-container .meme-button.save {
+    border: 2px solid white;
+}
+
+.meme-section .design-container .meme-button:hover,
+.meme-section .design-container a.meme-button:hover {
+    background-color: #ffe0b7;
+}
+
+.meme-section .design-container button:not(.corner) {
     border-radius: 0;
 }
 
 .main-modal {
-    height: 70vh;
-    width: 280px;
+    height: 70%;
 }
 
-.secondary-modal{
+.secondary-modal {
     max-height: 500px;
 }
 
@@ -118,6 +198,10 @@
     text-align: center;
 }
 
+.modal .imgs-table th {
+    padding-inline: 15px;
+}
+
 .modal table tbody tr {
     border-top: 1px solid white;
 }
@@ -146,12 +230,12 @@
 }
 
 .modal .imgs-keywords td,
-.modal .imgs-keywords th{
+.modal .imgs-keywords th {
     padding-block: .75rem;
     text-align: center;
 }
 
-.modal .imgs-keywords{
+.modal .imgs-keywords {
     margin-inline: 20px;
     overflow-y: scroll;
 }

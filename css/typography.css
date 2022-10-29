@@ -1,4 +1,24 @@
-/* @font-face {
-    font-family: 'Font Awesome 5 Free';
-    src: url(fonts/icons/webfonts/fa-regular-400.ttf);
-} */
+@font-face {
+    font-family: roboto;
+    src: url(../fonts/Roboto/Roboto-Regular.ttf);
+}
+
+@font-face {
+    font-family: fasthand;
+    src: url(../fonts/Fasthand/Fasthand-Regular.ttf);
+}
+
+@font-face {
+    font-family: island-moments;
+    src: url(../fonts/Island_Moments/IslandMoments-Regular.ttf);
+}
+
+@font-face {
+    font-family: rubik;
+    src: url(../fonts/Rubik/Rubik-VariableFont_wght.ttf);
+}
+
+@font-face {
+    font-family: shalimar;
+    src: url(../fonts/Shalimar/Shalimar-Regular.ttf);
+}

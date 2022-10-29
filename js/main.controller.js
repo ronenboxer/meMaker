@@ -15,6 +15,7 @@ function onInit() {
     onGalleryInit()
 }
 
+
 function addMainEventListeners() {
     addLayoutEventListeners()
     addNavListeners()
@@ -28,17 +29,34 @@ function addNavListeners() {
     document.querySelectorAll('.main-header  .nav-link').forEach(link => {
         link.addEventListener('click', LINKS[link.dataset.id])
         link.addEventListener('touchstart', LINKS[link.dataset.id])
+        document.querySelectorAll('.main-header .menu-icon-trigger').forEach(element => element.addEventListener('click', onToggleNavMenu))
+        window.addEventListener('resize', closeMenus)
     })
 }
 
 function onToggleSavedMemesMenu() {
     const elDropdownMenu = document.querySelector('.main-header .main-nav .dropdown-header .dropdown-menu')
-    if (!elDropdownMenu.classList.contains('active')) elDropdownMenu.innerHTML = getAllMemes().map(meme => {
+    if (!elDropdownMenu.classList.contains('shown')) elDropdownMenu.innerHTML = getAllMemes().map(meme => {
         return `<li class="meme" data-id="${meme.id}">
         <img src="${meme.src}" data-id="${meme.id}" onclick="onGoToMeme('${meme.id}')">
         </li>`
     }).join('')
-    elDropdownMenu.classList.toggle('active')
+    elDropdownMenu.classList.toggle('shown')
+    document.querySelector('.main-header .main-nav .make-place').classList.toggle('shown')
+    const numOfSavedMemesToShow = getAllMemes().length >= 3 ? 3 : getAllMemes().length
+    document.querySelector(':root').style.setProperty('--num-of-saved', numOfSavedMemesToShow);
+}
+
+function onToggleNavMenu(ev){
+    ev.stopPropagation()
+        document.querySelector('.main-header div.menu-icon').classList.toggle('shown')
+        document.querySelector('.main-nav ul').classList.toggle('shown')
+}
+
+function closeMenus(ev){
+    if (document.querySelector('.main-header div.menu-icon').classList.contains('shown')) onToggleNavMenu(ev)
+    document.querySelector('.main-header .main-nav .dropdown-header .dropdown-menu').classList.remove('shown')
+    document.querySelector('.main-header .main-nav .make-place').classList.toggle('shown')
 }
 
 function onGoToMeme(memeId) {
@@ -48,7 +66,7 @@ function onGoToMeme(memeId) {
 }
 
 function onCloseSavedMemesMenu() {
-    document.querySelector('.main-header .main-nav .dropdown-header .dropdown-menu').classList.remove('active')
+    document.querySelector('.main-header .main-nav .dropdown-header .dropdown-menu').classList.remove('shown')
 }
 
 function onManageModal() {
