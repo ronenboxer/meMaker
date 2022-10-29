@@ -66,6 +66,7 @@ function getAllMemes() {
 }
 
 function setMeme(memeId) {
+    gMemes = _loadMemes()
     if (gMemes[memeId]) gMeme = gMemes[memeId]
 }
 
