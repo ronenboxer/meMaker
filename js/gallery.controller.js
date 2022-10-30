@@ -3,7 +3,7 @@
 function onGalleryInit() {
     onCloseSavedMemesMenu()
     document.querySelector('.meme-section').classList.add('hidden')
-    // document.querySelector('.gallery-section').classList.remove('hidden')
+    document.querySelector('.gallery-section .gallery-nav').classList.remove('hidden')
     renderMostSearched()
     addGalleryListeners()
     setFilter('')
@@ -19,7 +19,7 @@ function renderMostSearched() {
         sortedWords.push({ word, times: keywordMap[word] })
     }
     sortedWords.sort((word1, word2) => word2.times - word1.times)
-    let paragraphContent = sortedWords.map(word => `<a class="most-searched" href="#"
+    let paragraphContent = `<input class="text-filter" list="possible-imgs" type="text" placeholder="search">` +sortedWords.map(word => `<a class="most-searched" href="#"
     onclick="onUpdateKeywordMap('${word.word}')"
     style="font-size: ${word.times * 10 + 5}px; color:${getRandomColor()} !important;">${word.word}</a>`).join('')
     elMostSearched.forEach(paragraph => paragraph.innerHTML = paragraphContent)
@@ -35,7 +35,7 @@ function renderGallery() {
 function addGalleryListeners() {
     // document.querySelector('.gallery-nav #file-input').addEventListener('input', onUploadimg)
     document.querySelector('.gallery-section .gallery-nav .text-filter').addEventListener('input', onSetFilter)
-    document.querySelector('.meme-section .search .text-filter').addEventListener('input', onSetFilter)
+    // document.querySelector('.meme-section .search .text-filter').addEventListener('input', onSetFilter)
 }
 
 function onCreateMeme(imgId) {
@@ -56,6 +56,7 @@ function renderSearchDataList() {
 }
 
 function onUpdateKeywordMap(keyword) {
+    document.querySelectorAll('.search input.text-input').forEach(input => input.value = keyword)
     updateKeywordsMap(keyword)
     setFilter(keyword)
     renderMostSearched()

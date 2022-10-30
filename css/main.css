@@ -10,9 +10,10 @@
 
 :root {
     /* PALETTE */
-    --bcg-primay: rgba(223, 143, 85, 0.8);
-    --primary-orng: rgba(223, 163, 85, .8);
-    --light-orng: rgba(235, 205, 156, 0.9);
+    --primary-olive: #525B56;
+    --primary-black: #040c0e;
+    --primary-blue: #132226;
+    --primary-orng: #be9063;
     --num-of-saved: 3;
 }
 
@@ -24,6 +25,6 @@ body {
     /* background-image: url(../background/yellow.jpeg); */
     /* background-repeat: repeat-y; */
     width: 100vw;
-    background-color: rgb(235, 246, 244);
+    background-color: rgb(242, 242, 242);
     overflow-x: hidden;
 }

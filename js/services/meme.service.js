@@ -57,6 +57,11 @@ function getMeme() {
     return gMeme
 }
 
+function getSelectedLine(){
+    if (gMeme.selectedLineIdx === -1) return null
+    return gMeme.lines[gMeme.selectedLineIdx]
+}
+
 function getAllMemes() {
     let memes = []
     for (var memeId in gMemes) {
@@ -74,26 +79,37 @@ function setLinePos({ x, y }, idx = gMeme.selectedLineIdx) {
     if (idx === -1) return
     setTextProp('y', y, idx)
     setTextProp('x', x, idx)
-
-
 }
 
 function setTextProp(prop, value, idx = gMeme.selectedLineIdx) {
     if (idx === -1 || !prop || value === null || value === undefined) return
     const line = gMeme.lines[idx]
     line[prop] = value
+    return value
+}
+
+function getLineWidth(line) {
+    setTextStyle(line)
+    const width = gCtx.measureText(line.txt).width
+    return width
+}
+
+function setLineWidth(line, idx = gMeme.selectedLineIdx) {
+    const width = getLineWidth(line)
+    setTextProp('width', width, idx)
+    return width
 }
 
 function translateTextDims(canvasWidth, canvasHeight, idx) {
     if (isNaN(idx) || idx === -1) return
     const line = gMeme.lines[idx]
     const yRatio = canvasHeight / line.canvasHeight
-    const xRatio = canvasWidth / line.canvasHeight
+    const xRatio = canvasWidth / line.canvasWidth
     if (xRatio === 1 && yRatio === 1) return
     setTextProp('x', line.x * xRatio, idx)
     setTextProp('y', line.y * yRatio, idx)
     setTextProp('size', line.size * yRatio, idx)
-    setTextProp('width', getElemetWidth(line), idx)
+    setTextProp('width', getLineWidth(line), idx)
     setTextProp('canvasWidth', canvasWidth, idx)
     setTextProp('canvasHeight', canvasHeight, idx)
 }

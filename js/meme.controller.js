@@ -10,7 +10,7 @@ let lastGrabPos
 function onMemeInit() {
     onCloseSavedMemesMenu()
     if (!getMeme()) return
-    document.querySelector('.gallery-section .gallery-nav').classList.add('hidden')
+    // document.querySelector('.gallery-section .gallery-nav').classList.add('hidden')
     document.querySelector('.meme-section').classList.remove('hidden')
     gElCanvas = document.querySelector('canvas')
     gCtx = gElCanvas.getContext('2d')
@@ -98,7 +98,7 @@ function onMove(ev) {
     const delta = getPositionsDelta(ev, lastGrabPos)
     lastGrabPos = { x, y }
     const meme = getMeme()
-    const line = meme.lines[meme.selectedLineIdx]
+    const line = getSelectedLine()
     if (!line) return
     if (isOnTheEdge(line, delta, meme.selectedLineIdx)) return
     const newPos = {
@@ -107,6 +107,7 @@ function onMove(ev) {
     }
     setLinePos(newPos)
     setTextProp('align', 'none')
+    document.querySelectorAll('.meme-button.align.active').forEach(button => button.classList.remove('active'))
     renderMeme()
 }
 
@@ -132,38 +133,58 @@ function checkMemeElements(meme, { x, y }) {
 }
 
 function onTextInput(ev) {
-    setTextProp('txt', ev.target.value)
+    const line = getSelectedLine()
+    if (!line) return
+    const newText = ev.target.value
+    if (newText.length > line.txt.length) {
+        if (isTooBig(line)) return ev.target.value = line.txt
+        else if (isOnTheEdge(line, 'size')) return ev.target.value = line.txt
+    }
+    setTextProp('txt', newText)
+    setTextProp('width', getLineWidth(line))
     renderMeme()
 }
 
 function onSetTextProp(prop, value) {
     const meme = getMeme()
     if (meme.selectedLineIdx === -1) return
-    const line = meme.lines[meme.selectedLineIdx]
+    const line = getSelectedLine()
     setTextProp(prop, value)
-    if (prop === 'align') setLinePos(getXByAlignment(line))
-    if (prop === 'font') setTextProp('width', getElemetWidth(line))
+    if (prop === 'align') {
+        setLinePos(getXByAlignment(line))
+        document.querySelectorAll('.meme-button.align').forEach(button => {
+            if (button.dataset.direction === 'align') button.classList.add('active')
+            else button.classList.remove('active')
+        })
+    } else if (prop === 'font') setTextProp('width', getLineWidth(line))
+    else if (prop === 'color') document.querySelector(`.design-container button[data-id="${prop}"]`).style.color = value
     renderMeme()
 }
 
 function onChangeFontSize(ev) {
     const meme = getMeme()
     if (meme.selectedLineIdx === -1) return
-    const line = meme.lines[meme.selectedLineIdx]
+    const line = getSelectedLine()
     const currFontSize = line.size
     const diff = +ev.target.dataset.direction
-    const nextVal = currFontSize + diff
-    if (diff === 1 && isTooBig(line)) return
+    const nextFontSize = currFontSize + diff
+    setTextProp('size', nextFontSize)
+    if (diff === 1 && isTooBig(line)) return setTextProp('size', currFontSize)
     else if (diff === 1 && isOnTheEdge(line, 'size')) fixPos(line)
-    setTextProp('size', nextVal)
-    setTextProp('width', getElemetWidth(line))
+    setTextProp('width', getLineWidth(line))
     renderMeme()
 }
 
 function setMemeDesignInputVals(line) {
-    const memeInputs = document.querySelector('.design-container')
-    memeInputs.querySelector('.meme-text').value = line.txt === 'Enter Text' ? '' : line.txt
-    memeInputs.querySelectorAll('button.size').forEach(button => button.dataset.size = line.size)
+    if (!line) return
+    const memeEditors = document.querySelector('.design-container')
+    memeEditors.querySelector('.meme-text').value = line.txt === 'Enter Text' ? '' : line.txt
+    memeEditors.querySelectorAll('button.size').forEach(button => button.dataset.size = line.size)
+    memeEditors.querySelectorAll('button.color').forEach(button => button.style.color = line[button.dataset.id])
+    memeEditors.querySelectorAll('.meme-button.align').forEach(button => {
+        if (line.align === button.dataset.direction) button.classList.add('active')
+        else button.classList.remove('active')
+    })
     document.querySelector('.meme-section .text-input.meme-text').focus()
 }
 

@@ -7,14 +7,13 @@
     right: 0;
     top: 70px;
     margin-block: 0;
-    background-color: var(--primary-orng);
     transition: opacity .4s;
     opacity: 0;
     pointer-events: none;
 }
 
-.main-header{
-    margin-bottom: 50px;
+.main-header {
+    /* margin-bottom: 50px; */
 }
 
 .main-nav ul.shown {
@@ -41,7 +40,6 @@
     height: 0;
     overflow-y: scroll;
     transition: height .4s;
-    background-color: #ffbe6acc;
     margin-inline: 6.84px;
 }
 
@@ -73,19 +71,12 @@
     cursor: pointer;
 }
 
-.main-header .main-nav .dropdown-menu img:hover {
-    background-color: var(--light-orng);
+h1 {
+    text-align: center;
+    margin-top: 60px;
+    font-size: 2.5em;
 }
 
-.main-header .main-nav .arrow-down {
-    background-color: var(--primary-orng);
-    color: white;
-    width: 100%;
-    z-index: 10;
-    top: 293.3px;
-    text-align: center;
-    border: 1px solid rgba(255, 255, 255, .8);
-}
 
 /* .gallery-section,
 .meme-section{
@@ -95,9 +86,14 @@
     padding-block: 1rem;
     margin-top: 60px;
     margin-bottom: 40px;
-    max-height: 120px;
+    max-height: 160px;
     align-items: center;
 
+}
+
+input.text-filter{
+    max-width: 244px;
+    margin: auto;
 }
 
 p.most-searched {
@@ -120,7 +116,8 @@ p.most-searched a {
 
 .gallery-nav p.most-searched {
     overflow-y: scroll;
-    height: 88px;
+    height: 100%;
+    max-width: 97%;
 }
 
 .gallery-section .gallery-container {
@@ -130,19 +127,48 @@ p.most-searched a {
     align-items: center;
 }
 
-.meme-section .design-container,
-.meme-section .search {
-    width: 230px;
+
+.meme-section aside.design-container.grid{
+    text-align: center;
+    gap: 8px;
+    max-width: 270px;
+    margin-inline: auto;
+    max-height: 300px;
+    grid-template-columns: repeat(5,1fr);
+}
+.meme-section .design-container > *{
+    height: 51px;
 }
 
-.meme-section .canvas-container {
+
+.meme-section .design-container>div,
+.meme-section .design-container input.meme-text {
+    width: 100%;
+    font-size: 1.29rem;
+}
+/* .meme-section .design-container>div:nth-child(odd){
+    margin-block: 8px;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(4, 1fr);
+} */
+
+.meme-section .design-container input.meme-text {
+    grid-column-start: span 3;
+    height: 38px;
+    margin-top: 6.5px;
+    width: 176px;
+    text-align: left;
+}
+.meme-section >div> * {
     margin-top: 60px;
     margin-bottom: 40px;
+    flex-grow: 1;
 }
 
 
-.meme-section aside.design-container,
+/* .meme-section aside.design-container, */
 .meme-section .search {
+    width: 230px;
     margin-bottom: auto;
     margin-inline: auto;
     height: 226px;
@@ -154,34 +180,60 @@ p.most-searched a {
     overflow-y: scroll;
 }
 
-.design-container .design-btns-container {
+/* .design-container .design-btns-container {
     grid-template: repeat(2, 36px) / 46px repeat(3, 36px) 46px;
     margin-inline: auto;
     margin-block: 2rem;
-}
+} */
 
-input.meme-text {
-    width: 200px;
-    transform: translateX(-50%);
-    margin-left: 50%;
-}
 
 .design-container>*,
 .search * {
     font-size: 1.25rem;
     text-align: center;
 }
-
-.design-container select.font{
-    width: 88px;
-    font-size: 1rem;
+.design-container button.text.color{
+    grid-column-start: 1;
+    grid-row-start: 3;
+}
+.design-container button.stroke.color{
+    grid-column-start: 2;
+    grid-row-start: 3;
+}
+.design-container button.align.start{
+    grid-column-start: 1;
+    grid-row-start: 4;
+}
+.design-container button.align.center{
+    grid-column-start: 2;
+    grid-row-start: 4;
+}
+.design-container button.align.end{
+    grid-column-start: 3;
+    grid-row-start: 4;
+}
+.design-container button.selector{
+    grid-column-start: 4;
+    grid-row-start: 4;
+}
+.meme-section .design-container button.meme-button.save{
+    grid-row-start: 5;
+}
+.meme-section .design-container a.meme-button.share{
+    grid-row-start: 5;
+}
+.design-container select.font {
+    font-size: 1.29rem;
+    grid-column-start: span 3;
+    height: 31px;
+    margin-top: 10px;
 }
 
 .help {
     margin-bottom: 30px;
 }
 
-.meme-button.selector {
+/* .meme-button.selector {
     text-align: right;
     padding-left: 10px;
     border-top-left-radius: 36px;
@@ -197,14 +249,14 @@ input.meme-text {
     text-align: left;
     padding-right: 10px;
     border-top-right-radius: 36px;
-}
+} */
 
 .design-container .design-btns-container button.meme-button.share {
     border-right: none;
 }
 
-.design-container .design-btns-container button.meme-button.save {
+/* .design-container .design-btns-container button.meme-button.save {
     text-align: left;
     padding-right: 10px;
     border-bottom-right-radius: 36px;
-}
+} */

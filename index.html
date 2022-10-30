@@ -11,7 +11,7 @@
 
 <body class="full">
 
-    <header class="main-header full main-layout flex space-between">
+    <header class="main-header full main-layout">
         <div>
             <a class="logo inline-block nav-link" data-id="gallery" href="#">meMaker</a>
             <nav class="main-nav inline-block">
@@ -23,7 +23,7 @@
                 <ul>
                     <li><a href="#" class="nav-link" data-id="gallery">Gallery</a></li>
                     <li class="dropdown-header position-relative">
-                        <a href="#" class="nav-link" data-id="meme">Meme</a>
+                        <a href="#" class="nav-link" data-id="meme">Saved</a>
                         <ul class="dropdown-menu position-absolute flex column"></ul>
                     </li>
                     <li><a href="#" class="nav-link make-place" data-id="lucky">Lucky?</a></li>
@@ -32,49 +32,24 @@
             </nav>
         </div>
     </header>
-
+<h1>Create your own Meme</h1>
     <section class="meme-section full main-layout">
-        <main class="meme-editor canvas-container flex">
-            <canvas id="meme"></canvas>
-        </main>
-        <div class="flex wrap help">
-            <aside class="design-container ">
-                <input class="input text-input meme-text" type="text" placeholder="BE FUNNY">
-                <div class="design-btns-container grid">
+        <div class="flex wrap justify-center">
+            <main class="meme-editor canvas-container flex">
+                <canvas id="meme"></canvas>
+            </main>
+            <aside class="design-container grid">
+                <input class="input text-input meme-text" type="text" placeholder="BE FUNNY...">
+                <button class="meme-button add" data-id="add">
+                    <iconify-icon inline icon="akar-icons:plus" data-id="add"></iconify-icon>
+                </button>
+                <button class="meme-button delete" data-id="delete">
+                    <iconify-icon inline icon="ant-design:delete-outlined" data-id="delete"></iconify-icon>
+                </button>
 
-                    <button class="meme-button selector corner" data-direction="1">
-                        <iconify-icon inline icon="charm:chevrons-up-down" data-direction="1"></iconify-icon>
-                    </button>
-                    <button class="meme-button delete" data-id="delete">
-                        <iconify-icon inline icon="ant-design:delete-outlined" data-id="delete"></iconify-icon>
-                    </button>
-                    <button class="meme-button add" data-id="add">
-                        <iconify-icon inline icon="akar-icons:plus" data-id="add"></iconify-icon>
-                    </button>
-                    <button class="meme-button size up" data-direction="1">
-                        <iconify-icon inline icon="ooui:bigger" data-direction="1"></iconify-icon>
-                    </button>
-                    <button class="meme-button size down corner" data-direction="-1">
-                        <iconify-icon inline icon="ooui:smaller" data-direction="-1"></iconify-icon>
-                    </button>
-                    <button class="meme-button align start corner" data-direction="start">
-                        <iconify-icon inline icon="bx:align-left" data-direction="start"></iconify-icon>
-                    </button>
-                    <button class="meme-button align center" data-direction="center">
-                        <iconify-icon inline icon="bx:align-middle" data-direction="center"></iconify-icon>
-                    </button>
-                    <button class="meme-button align end" data-direction="end">
-                        <iconify-icon inline icon="bx:align-right" data-direction="end"></iconify-icon>
-                    </button>
-                    <a href="#" class="meme-button share" download="my-img.jpg">
-                        <iconify-icon icon="entypo:share-alternitive"></iconify-icon>
-                    </a>
-                    <button class="meme-button save corner">
-                        <iconify-icon inline icon="entypo:save"></iconify-icon>
-                    </button>
 
-                </div>
-                <input class="input color text" data-id="color" type="color">
+                
+
                 <select class="font" id="font">
                     <option value="Impact">Impact</option>
                     <option value="fasthand">Fasthand</option>
@@ -88,26 +63,54 @@
                     <option value="Verdana">Verdana</option>
                     <option value="Geneva">Geneva</option>
                 </select>
-                <input class="input color stroke" data-id="strokeColor" type="color">
-            </aside>
+                <button class="meme-button size up" data-direction="1">
+                    <iconify-icon inline icon="ooui:bigger" data-direction="1"></iconify-icon>
+                </button>
+                <button class="meme-button size down" data-direction="-1">
+                    <iconify-icon inline icon="ooui:smaller" data-direction="-1"></iconify-icon>
+                </button>
+                <button class="meme-button text color" data-id="color">
+                    <label>
+                        <iconify-icon inline icon="bi:paint-bucket"></iconify-icon>
+                        <input class="input color text hidden" data-id="color" type="color"></iconify-icon>
+                    </label>
+                </button>
+                <button class="meme-button stroke color" data-id="strokeColor">
+                    <label>
+                        <iconify-icon inline icon="fluent:ink-stroke-20-regular"></iconify-icon>
+                        <input class="input color stroke hidden" data-id="strokeColor" type="color">
+                    </label>
+                </button>
 
-            <section class="search">
-                <input class="text-filter meme-text" list="possible-imgs" type="text" placeholder="search">
-                <p class="most-searched"></p>
-            </section>
+                <button class="meme-button selector" data-direction="1">
+                    <iconify-icon inline icon="charm:chevrons-up-down" data-direction="1"></iconify-icon>
+                </button>
+                <button class="meme-button align start" data-direction="start">
+                    <iconify-icon inline icon="bx:align-left" data-direction="start"></iconify-icon>
+                </button>
+                <button class="meme-button align center" data-direction="center">
+                    <iconify-icon inline icon="bx:align-middle" data-direction="center"></iconify-icon>
+                </button>
+                <button class="meme-button align end" data-direction="end">
+                    <iconify-icon inline icon="bx:align-right" data-direction="end"></iconify-icon>
+                </button>
+                <a href="#" class="meme-button share" download="my-img.jpg">
+                    <iconify-icon icon="fluent:share-ios-24-regular"></iconify-icon>
+                </a>
+                <button class="meme-button save">
+                    <iconify-icon icon="fluent:save-28-regular"></iconify-icon>
+                </button>
+
+                <!-- </div> -->
+
+            </aside>
         </div>
-        </div>
+        
     </section>
     <section class="gallery-section main-layout full">
-        <nav class="gallery-nav full main-layout">
-            <div class="flex">
-
-                <ul class="inline-block">
-                    <li>Search</li>
-                    <li><input class="text-filter" list="possible-imgs" type="text"></li>
-                </ul>
-                <p class="most-searched">
-                </p>
+        <nav class="gallery-nav full main-layout flex column justify-center">
+            <p class="most-searched">
+            </p>
             </div>
         </nav>
 

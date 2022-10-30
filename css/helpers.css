@@ -44,12 +44,16 @@
     justify-content: space-between;
 }
 
+.justify-center{
+    justify-content: center;
+}
+
 .align-center {
     align-items: center;
 }
 
 .grid-auto-cols{
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    grid-template-columns: repeat(auto-fill, 150px);
 }
 
 .hidden-modal{

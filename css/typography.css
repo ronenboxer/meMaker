@@ -22,3 +22,13 @@
     font-family: shalimar;
     src: url(../fonts/Shalimar/Shalimar-Regular.ttf);
 }
+
+@font-face {
+    font-family: noto;
+    src: url(../fonts/Noto_Sans/NotoSans-Regular.ttf);
+}
+
+@font-face {
+    font-family: pacifico;
+    src: url(../fonts/Pacifico/Pacifico-Regular.ttf);
+}

@@ -11,6 +11,16 @@
         flex-wrap: nowrap;
         flex-grow: 1;
     }
+    .meme-section .design-container>div{
+        max-width: 184px;
+    }
+    .design-container select.font {
+        width: 115px;
+        font-size: 1.29rem;
+    }
+    .container input.meme-text {
+        width: 184px;
+    }
     .meme-section .search {
         max-width: 100%;
         flex-grow: 1;

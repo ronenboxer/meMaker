@@ -62,6 +62,7 @@ function drawText({ txt, x, y }) {
 }
 
 function setTextStyle(line) {
+    if (!line) return
     setDrawStyle(line.stokreSize, line.strokeColor, 'solid', line.color, line.size, line.font)
 }
 
@@ -74,6 +75,7 @@ function setDrawStyle(width = 1, stroke = 'black', strokeLineStyle = 'solid', co
 }
 
 function drawRect(line) {
+    if (!line) return
     const height = line.size
     gCtx.beginPath()
     setDrawStyle(3, SELECTED_LINE_COLOR, 'dashed')
@@ -99,44 +101,35 @@ function setLineDefaultPos(idx, lines, canvasHeight) {
 }
 
 function getXByAlignment(line, idx) {
-    if (line.align === 'none') return line.x
-    const width = line.width || setElementWidth(line, idx)
+    if (!line || line.align === 'none') return line.x
+    const width = line.width || setTextProp('width', getLineWidth(line), idx)
     const x = Math.abs((gElCanvas.width - width) * MULTIPLIER[line.align] - MARGIN)
     setLinePos({ x }, idx)
     return x
 }
 
 function isTooBig(line) {
-    const width = line.width || setElementWidth(line)
+    if (!line) return
+    const width = line.width || getLineWidth(line)
     return (width > gElCanvas.width - 2 * MARGIN || line.size > gElCanvas.height - 2 * MARGIN)
 }
 
 function isOnTheEdge(line, diff, idx) {
+    if (!line) return
     const { x, y } = line
     let size = line.size + 1
-    const width = line.width || setElementWidth(line)
+    const width = line.width || setTextProp('width', getLineWidth(line))
     if (!diff || idx === undefined) return (x + width > gElCanvas.width + MARGIN || y - size < MARGIN)
     return (x + diff.x <= MARGIN && diff.x < 0 || y + diff.y - line.size <= MARGIN && diff.y < 0 ||
         x + diff.x + width >= gElCanvas.width - MARGIN && diff.x > 0 || y + diff.y >= gElCanvas.height - MARGIN && diff.y > 0)
 }
 
 function fixPos(line) {
-    const width = line.width || setElementWidth(line)
+    if (!line) return
+    const width = line.width || setTextProp('width', getLineWidth(line))
     let x = line.x
     let y = line.y
     if (width + x > gElCanvas.width - MARGIN) x--
     if (y - line.size < MARGIN) y++
     setLinePos({ x, y })
-}
-
-function setElementWidth(element, idx) {
-    const width = getElemetWidth(element)
-    setTextProp('width', width, idx)
-    return width
-}
-
-function getElemetWidth(element) {
-    setTextStyle(element)
-    const width = gCtx.measureText(element.txt).width
-    return width
 }
