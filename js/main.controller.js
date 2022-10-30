@@ -56,7 +56,7 @@ function onToggleNavMenu(ev){
 function closeMenus(ev){
     if (document.querySelector('.main-header div.menu-icon').classList.contains('shown')) onToggleNavMenu(ev)
     document.querySelector('.main-header .main-nav .dropdown-header .dropdown-menu').classList.remove('shown')
-    document.querySelector('.main-header .main-nav .make-place').classList.toggle('shown')
+    document.querySelector('.main-header .main-nav .make-place').classList.remove('shown')
 }
 
 function onGoToMeme(memeId) {
