@@ -87,13 +87,17 @@ h1 {
     margin-top: 60px;
     margin-bottom: 40px;
     max-height: 160px;
+    padding-inline: 18px;
     align-items: center;
+    overflow-y: scroll;
 
 }
 
 input.text-filter{
     max-width: 244px;
     margin: auto;
+    margin-inline-start: 0;
+    display: block;
 }
 
 p.most-searched {
@@ -116,8 +120,8 @@ p.most-searched a {
 
 .gallery-nav p.most-searched {
     overflow-y: scroll;
-    height: 100%;
-    max-width: 97%;
+    max-height: calc(100% - 32px);
+    max-width: calc(100% - 36px);
 }
 
 .gallery-section .gallery-container {
