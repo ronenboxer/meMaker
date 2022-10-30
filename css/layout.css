@@ -126,6 +126,8 @@ p.most-searched a {
 .gallery-section .gallery-container {
     gap: 25px;
     margin-block: 50px;
+    justify-content: center;
+    align-items: center;
 }
 
 .meme-section .design-container,

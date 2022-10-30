@@ -108,7 +108,7 @@ p.most-searched a:hover{
 
 .gallery-section .gallery-container .gallery-img {
     border-radius: 3px;
-    box-shadow: 0 0 8px 4px black;
+    /* box-shadow: 0 0 8px 4px black; */
     cursor: pointer;
     transition: opacity .3s;
 }

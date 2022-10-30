@@ -38,7 +38,7 @@ function createMeme(imgId) {
 function addLine(height) {
     if (!gMeme) return
     const y = (height - DEFUALT_SIZE) / 2
-    const txt = 'Enter Text'
+    const txt = 'BE FUNNY'
     const font = 'Impact'
     const size = DEFUALT_SIZE
     const strokeSize = 1

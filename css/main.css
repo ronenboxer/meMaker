@@ -10,7 +10,7 @@
 
 :root {
     /* PALETTE */
-    --bcg-primay: #ed593e;
+    --bcg-primay: rgba(223, 143, 85, 0.8);
     --primary-orng: rgba(223, 163, 85, .8);
     --light-orng: rgba(235, 205, 156, 0.9);
     --num-of-saved: 3;
@@ -21,8 +21,9 @@
 }
 
 body {
-    background-image: url(../background/yellow.jpeg);
-    background-repeat: repeat-y;
+    /* background-image: url(../background/yellow.jpeg); */
+    /* background-repeat: repeat-y; */
     width: 100vw;
+    background-color: rgb(235, 246, 244);
     overflow-x: hidden;
 }

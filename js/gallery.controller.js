@@ -21,7 +21,7 @@ function renderMostSearched() {
     sortedWords.sort((word1, word2) => word2.times - word1.times)
     let paragraphContent = sortedWords.map(word => `<a class="most-searched" href="#"
     onclick="onUpdateKeywordMap('${word.word}')"
-    style="font-size: ${word.times * 5 + 5}px; color:${getRandomColor()} !important;">${word.word}</a>`).join('')
+    style="font-size: ${word.times * 10 + 5}px; color:${getRandomColor()} !important;">${word.word}</a>`).join('')
     elMostSearched.forEach(paragraph => paragraph.innerHTML = paragraphContent)
 }
 
