@@ -90,6 +90,7 @@ h1 {
     padding-inline: 18px;
     align-items: center;
     overflow-y: scroll;
+    overflow-x: hidden;
 
 }
 
@@ -98,12 +99,6 @@ input.text-filter{
     margin: auto;
     margin-inline-start: 0;
     display: block;
-}
-
-p.most-searched {
-    margin-block: 0;
-    overflow-y: scroll;
-    overflow-x: hidden
 }
 
 p.most-searched a {
@@ -120,6 +115,7 @@ p.most-searched a {
 
 .gallery-nav p.most-searched {
     overflow-y: scroll;
+    overflow-x: hidden;
     max-height: calc(100% - 32px);
     max-width: calc(100% - 36px);
 }
