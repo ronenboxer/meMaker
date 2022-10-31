@@ -117,7 +117,7 @@ function isTooBig(line) {
 function isOnTheEdge(line, diff, idx) {
     if (!line) return
     const { x, y } = line
-    let size = line.size + 1
+    let size = line.size
     const width = line.width || setTextProp('width', getLineWidth(line))
     if (!diff || idx === undefined) return (x + width > gElCanvas.width + MARGIN || y - size < MARGIN)
     return (x + diff.x <= MARGIN && diff.x < 0 || y + diff.y - line.size <= MARGIN && diff.y < 0 ||
