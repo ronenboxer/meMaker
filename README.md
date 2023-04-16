@@ -1,5 +1,5 @@
 # Meme-Maker
-A meme generator app made as a school project using vanilla and canvas
+A [meme generator app](https://ronenboxer.github.io/meMaker/) made as a school project using vanilla and canvas.
 
 
 ## Features
